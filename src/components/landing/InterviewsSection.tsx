@@ -1,7 +1,10 @@
 import { useState, useMemo } from "react";
+import { Link } from "react-router-dom";
 import { videos, GuestRole } from "@/data/videos";
 import { VideoFilters } from "./VideoFilters";
 import { VideoCard } from "./VideoCard";
+import { Button } from "@/components/ui/button";
+import { ArrowLeft } from "lucide-react";
 
 export function InterviewsSection() {
   const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
@@ -14,17 +17,12 @@ export function InterviewsSection() {
     const sixMonthsAgo = new Date(now.getTime() - 180 * 24 * 60 * 60 * 1000);
 
     return videos.filter((video) => {
-      // Country filter
       if (selectedCountry && video.country !== selectedCountry) {
         return false;
       }
-
-      // Role filter
       if (selectedRole && video.guestRole !== selectedRole) {
         return false;
       }
-
-      // Time range filter
       const recordedDate = new Date(video.recordedAt);
       if (selectedTimeRange === "3months" && recordedDate < threeMonthsAgo) {
         return false;
@@ -32,7 +30,6 @@ export function InterviewsSection() {
       if (selectedTimeRange === "6months" && recordedDate < sixMonthsAgo) {
         return false;
       }
-
       return true;
     });
   }, [selectedCountry, selectedRole, selectedTimeRange]);
@@ -45,6 +42,20 @@ export function InterviewsSection() {
       return new Date(b.recordedAt).getTime() - new Date(a.recordedAt).getTime();
     });
   }, [filteredVideos]);
+
+  // Show only first 6 videos
+  const displayedVideos = sortedVideos.slice(0, 6);
+  const hasMoreVideos = sortedVideos.length > 6;
+
+  // Build query params for "show all" link
+  const buildQueryParams = () => {
+    const params = new URLSearchParams();
+    if (selectedCountry) params.set("country", selectedCountry);
+    if (selectedRole) params.set("role", selectedRole);
+    if (selectedTimeRange !== "all") params.set("time", selectedTimeRange);
+    const queryString = params.toString();
+    return queryString ? `?${queryString}` : "";
+  };
 
   return (
     <section id="interviews" className="py-16 bg-background">
@@ -76,12 +87,26 @@ export function InterviewsSection() {
         </div>
 
         {/* Video Grid */}
-        {sortedVideos.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {sortedVideos.map((video) => (
-              <VideoCard key={video.id} video={video} />
-            ))}
-          </div>
+        {displayedVideos.length > 0 ? (
+          <>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {displayedVideos.map((video) => (
+                <VideoCard key={video.id} video={video} />
+              ))}
+            </div>
+            
+            {/* Show all button */}
+            {hasMoreVideos && (
+              <div className="text-center mt-8">
+                <Button asChild variant="outline" size="lg">
+                  <Link to={`/interviews${buildQueryParams()}`} className="gap-2">
+                    مشاهده همه مصاحبه‌ها در این دسته
+                    <ArrowLeft className="h-4 w-4" />
+                  </Link>
+                </Button>
+              </div>
+            )}
+          </>
         ) : (
           <div className="text-center py-12">
             <p className="text-muted-foreground">
