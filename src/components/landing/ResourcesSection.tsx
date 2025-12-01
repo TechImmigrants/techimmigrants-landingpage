@@ -1,5 +1,6 @@
 import { useState, useMemo } from "react";
-import { ExternalLink, Book, Globe, Wrench, FileText, Search } from "lucide-react";
+import { Link } from "react-router-dom";
+import { ExternalLink, Book, Globe, Wrench, FileText, Search, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
@@ -12,6 +13,8 @@ const resourceTypeIcons: Record<ResourceType, typeof Book> = {
   tool: Wrench,
   article: FileText,
 };
+
+const MAX_RESOURCES_DISPLAY = 6;
 
 export function ResourcesSection() {
   const [selectedType, setSelectedType] = useState<ResourceType | null>(null);
@@ -36,6 +39,17 @@ export function ResourcesSection() {
       return true;
     });
   }, [selectedType, searchQuery]);
+
+  const displayedResources = filteredResources.slice(0, MAX_RESOURCES_DISPLAY);
+  const hasMoreResources = filteredResources.length > MAX_RESOURCES_DISPLAY;
+
+  // Build query params for "show all" link
+  const getShowAllLink = () => {
+    const params = new URLSearchParams();
+    if (selectedType) params.set("type", selectedType);
+    const queryString = params.toString();
+    return `/resources${queryString ? `?${queryString}` : ""}`;
+  };
 
   // Get guest name for related videos
   const getRelatedGuest = (resourceId: string): string | null => {
@@ -109,9 +123,9 @@ export function ResourcesSection() {
         </div>
 
         {/* Resources Grid */}
-        {filteredResources.length > 0 ? (
+        {displayedResources.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredResources.map((resource) => {
+            {displayedResources.map((resource) => {
               const Icon = resourceTypeIcons[resource.type];
               const relatedGuest = getRelatedGuest(resource.id);
 
@@ -154,6 +168,18 @@ export function ResourcesSection() {
         ) : (
           <div className="text-center py-12">
             <p className="text-muted-foreground">هیچ منبعی یافت نشد.</p>
+          </div>
+        )}
+
+        {/* Show All Button */}
+        {hasMoreResources && (
+          <div className="text-center mt-8">
+            <Button asChild variant="outline" className="gap-2 hover:scale-[1.02] transition-transform">
+              <Link to={getShowAllLink()}>
+                مشاهده همه منابع
+                <ArrowLeft className="h-4 w-4" />
+              </Link>
+            </Button>
           </div>
         )}
       </div>
