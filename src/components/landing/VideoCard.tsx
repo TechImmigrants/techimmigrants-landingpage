@@ -21,13 +21,13 @@ export function VideoCard({ video }: VideoCardProps) {
   };
 
   return (
-    <div className="bg-card rounded-xl overflow-hidden border border-border shadow-sm hover:shadow-md transition-shadow">
+    <div className="bg-card rounded-xl overflow-hidden border border-border shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
       {/* Thumbnail */}
-      <div className="relative aspect-video bg-muted">
+      <div className="relative aspect-video bg-muted overflow-hidden group">
         <img
           src={thumbnailUrl}
           alt={video.title}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
           onError={(e) => {
             e.currentTarget.src = `https://img.youtube.com/vi/${video.youtubeId}/hqdefault.jpg`;
           }}

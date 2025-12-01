@@ -16,7 +16,7 @@ export function CommunitySection() {
 
         <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
           {/* Telegram Card */}
-          <div className="bg-card rounded-2xl p-8 border border-border shadow-sm hover:shadow-md transition-shadow">
+          <div className="bg-card rounded-2xl p-8 border border-border shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
             <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mb-6">
               <MessageCircle className="h-8 w-8 text-primary" />
             </div>
@@ -30,7 +30,7 @@ export function CommunitySection() {
               <Users className="h-4 w-4" />
               <span>+۲۰۰۰ عضو فعال</span>
             </div>
-            <Button size="lg" className="w-full gap-2" asChild>
+            <Button size="lg" className="w-full gap-2 transition-transform hover:scale-[1.02]" asChild>
               <a
                 href="https://t.me/techimmigrants"
                 target="_blank"
@@ -43,7 +43,7 @@ export function CommunitySection() {
           </div>
 
           {/* YouTube Card */}
-          <div className="bg-card rounded-2xl p-8 border border-border shadow-sm hover:shadow-md transition-shadow">
+          <div className="bg-card rounded-2xl p-8 border border-border shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
             <div className="w-16 h-16 bg-destructive/10 rounded-2xl flex items-center justify-center mb-6">
               <Youtube className="h-8 w-8 text-destructive" />
             </div>
@@ -57,7 +57,7 @@ export function CommunitySection() {
               <Youtube className="h-4 w-4" />
               <span>+۵۰ ویدیو منتشر شده</span>
             </div>
-            <Button size="lg" variant="outline" className="w-full gap-2" asChild>
+            <Button size="lg" variant="outline" className="w-full gap-2 transition-transform hover:scale-[1.02]" asChild>
               <a
                 href="https://youtube.com/@techimmigrants"
                 target="_blank"

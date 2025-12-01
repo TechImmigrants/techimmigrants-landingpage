@@ -79,7 +79,7 @@ export function LiveEventsSection() {
               return (
                 <div
                   key={event.id}
-                  className="bg-background rounded-xl border border-border overflow-hidden"
+                  className="bg-background rounded-xl border border-border overflow-hidden hover:shadow-lg transition-shadow duration-300"
                 >
                   <div className="p-6">
                     <div className="flex items-start justify-between mb-4">
@@ -115,7 +115,7 @@ export function LiveEventsSection() {
 
                     <div className="flex gap-3">
                       {event.youtubeOrEventUrl && (
-                        <Button variant="outline" size="sm" asChild className="gap-1">
+                        <Button variant="outline" size="sm" asChild className="gap-1 transition-transform hover:scale-[1.02]">
                           <a
                             href={event.youtubeOrEventUrl}
                             target="_blank"
@@ -130,6 +130,7 @@ export function LiveEventsSection() {
                         size="sm"
                         variant={isExpanded ? "secondary" : "default"}
                         onClick={() => setExpandedEventId(isExpanded ? null : event.id)}
+                        className="transition-transform hover:scale-[1.02]"
                       >
                         {isExpanded ? "بستن فرم" : "ارسال سوال برای این لایو"}
                       </Button>
@@ -138,7 +139,7 @@ export function LiveEventsSection() {
 
                   {/* Question Form */}
                   {isExpanded && (
-                    <div className="border-t border-border p-6 bg-accent/30">
+                    <div className="border-t border-border p-6 bg-accent/30 animate-fade-in">
                       <form
                         onSubmit={(e) => handleSubmitQuestion(event.id, e)}
                         className="space-y-4"

@@ -118,7 +118,7 @@ export function ResourcesSection() {
               return (
                 <div
                   key={resource.id}
-                  className="bg-card rounded-xl p-6 border border-border hover:shadow-md transition-shadow"
+                  className="bg-card rounded-xl p-6 border border-border hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
                 >
                   <div className="flex items-start justify-between mb-4">
                     <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
@@ -137,7 +137,7 @@ export function ResourcesSection() {
                       معرفی شده در مصاحبه با {relatedGuest}
                     </p>
                   )}
-                  <Button variant="outline" size="sm" asChild className="w-full gap-1">
+                  <Button variant="outline" size="sm" asChild className="w-full gap-1 transition-transform hover:scale-[1.02]">
                     <a
                       href={resource.url}
                       target="_blank"
