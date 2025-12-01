@@ -37,7 +37,7 @@ export function Navbar() {
               <button
                 key={item.href}
                 onClick={() => scrollToSection(item.href)}
-                className="text-foreground/80 hover:text-primary transition-colors text-sm font-medium"
+                className="text-foreground/80 hover:text-primary transition-colors text-sm font-medium relative after:absolute after:bottom-0 after:right-0 after:w-0 after:h-0.5 after:bg-primary after:transition-all hover:after:w-full"
               >
                 {item.label}
               </button>
@@ -45,6 +45,7 @@ export function Navbar() {
             <Button
               size="sm"
               onClick={() => scrollToSection("#community")}
+              className="transition-transform hover:scale-105"
             >
               عضویت در گروه تلگرام
             </Button>
@@ -62,20 +63,22 @@ export function Navbar() {
 
         {/* Mobile Navigation */}
         {isOpen && (
-          <div className="md:hidden py-4 border-t border-border">
+          <div className="md:hidden py-4 border-t border-border animate-fade-in">
             <div className="flex flex-col gap-3">
-              {navItems.map((item) => (
+              {navItems.map((item, index) => (
                 <button
                   key={item.href}
                   onClick={() => scrollToSection(item.href)}
-                  className="text-foreground/80 hover:text-primary transition-colors text-sm font-medium py-2 text-right"
+                  className="text-foreground/80 hover:text-primary transition-colors text-sm font-medium py-2 text-right animate-slide-in-right opacity-0"
+                  style={{ animationDelay: `${index * 50}ms` }}
                 >
                   {item.label}
                 </button>
               ))}
               <Button
                 size="sm"
-                className="mt-2"
+                className="mt-2 animate-slide-in-right opacity-0"
+                style={{ animationDelay: `${navItems.length * 50}ms` }}
                 onClick={() => scrollToSection("#community")}
               >
                 عضویت در گروه تلگرام

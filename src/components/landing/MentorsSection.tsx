@@ -65,7 +65,7 @@ export function MentorsSection() {
               {displayedMentors.map((mentor) => (
                 <div
                   key={mentor.id}
-                  className={`bg-background rounded-xl p-4 border border-border ${
+                  className={`bg-background rounded-xl p-4 border border-border hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 ${
                     !mentor.available ? "opacity-60" : ""
                   }`}
                 >
