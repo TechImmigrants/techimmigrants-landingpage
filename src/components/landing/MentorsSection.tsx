@@ -1,11 +1,14 @@
 import { useState } from "react";
-import { Send, MessageCircle } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Send, MessageCircle, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { mentors } from "@/data/mentors";
 import { COUNTRY_LABELS, ROLE_LABELS } from "@/data/videos";
 import { toast } from "sonner";
+
+const MAX_MENTORS_DISPLAY = 3;
 
 export function MentorsSection() {
   const [formData, setFormData] = useState({
@@ -37,6 +40,9 @@ export function MentorsSection() {
     }, 500);
   };
 
+  const displayedMentors = mentors.slice(0, MAX_MENTORS_DISPLAY);
+  const hasMoreMentors = mentors.length > MAX_MENTORS_DISPLAY;
+
   return (
     <section id="mentors" className="py-16 bg-card">
       <div className="container mx-auto px-4">
@@ -56,7 +62,7 @@ export function MentorsSection() {
               منتورهای فعال
             </h3>
             <div className="space-y-4">
-              {mentors.map((mentor) => (
+              {displayedMentors.map((mentor) => (
                 <div
                   key={mentor.id}
                   className={`bg-background rounded-xl p-4 border border-border ${
@@ -98,6 +104,18 @@ export function MentorsSection() {
                 </div>
               ))}
             </div>
+            
+            {/* Show all button */}
+            {hasMoreMentors && (
+              <div className="mt-4">
+                <Button asChild variant="outline" className="w-full gap-2">
+                  <Link to="/mentors">
+                    مشاهده همه منتورها
+                    <ArrowLeft className="h-4 w-4" />
+                  </Link>
+                </Button>
+              </div>
+            )}
           </div>
 
           {/* Contact Form */}
