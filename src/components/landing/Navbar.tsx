@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 const navItems = [
   { label: "مصاحبه‌ها", href: "#interviews" },
   { label: "منتورها", href: "#mentors" },
+  { label: "نظرات", href: "#testimonials" },
   { label: "جامعه", href: "#community" },
   { label: "منابع", href: "#resources" },
   { label: "لایوها", href: "#lives" },
