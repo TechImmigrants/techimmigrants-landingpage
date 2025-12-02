@@ -4,6 +4,7 @@ import { Send, MessageCircle, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { mentors } from "@/data/mentors";
 import { COUNTRY_LABELS, ROLE_LABELS } from "@/data/videos";
 import { toast } from "sonner";
@@ -73,42 +74,51 @@ export default function Mentors() {
                 {mentors.map((mentor) => (
                   <div
                     key={mentor.id}
-                    className={`bg-card rounded-xl p-4 border border-border ${
+                    className={`bg-card rounded-xl p-4 border border-border hover:shadow-md transition-shadow duration-300 ${
                       !mentor.available ? "opacity-60" : ""
                     }`}
                   >
-                    <div className="flex items-start justify-between mb-2">
-                      <div>
-                        <h4 className="font-semibold text-foreground">
-                          {mentor.name}
-                        </h4>
-                        {mentor.company && (
-                          <p className="text-sm text-muted-foreground">
-                            {mentor.company}
-                          </p>
-                        )}
+                    <div className="flex items-start gap-3">
+                      <Avatar className="h-12 w-12 shrink-0">
+                        <AvatarFallback className="bg-primary/10 text-primary font-semibold">
+                          {mentor.name.slice(0, 2)}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-start justify-between mb-1">
+                          <div>
+                            <h4 className="font-semibold text-foreground">
+                              {mentor.name}
+                            </h4>
+                            {mentor.company && (
+                              <p className="text-sm text-muted-foreground">
+                                {mentor.company}
+                              </p>
+                            )}
+                          </div>
+                          <span
+                            className={`text-xs px-2 py-1 rounded-full shrink-0 ${
+                              mentor.available
+                                ? "bg-primary/10 text-primary"
+                                : "bg-muted/50 text-muted-foreground"
+                            }`}
+                          >
+                            {mentor.available ? "در دسترس" : "مشغول"}
+                          </span>
+                        </div>
+                        <div className="flex gap-2 mb-2">
+                          <span className="bg-primary/10 text-primary text-xs px-2 py-1 rounded-full">
+                            {ROLE_LABELS[mentor.role]}
+                          </span>
+                          <span className="bg-secondary text-secondary-foreground text-xs px-2 py-1 rounded-full">
+                            {COUNTRY_LABELS[mentor.country] || mentor.country}
+                          </span>
+                        </div>
+                        <p className="text-sm text-muted-foreground">
+                          {mentor.description}
+                        </p>
                       </div>
-                      <span
-                        className={`text-xs px-2 py-1 rounded-full ${
-                          mentor.available
-                            ? "bg-green-100 text-green-700"
-                            : "bg-muted text-muted-foreground"
-                        }`}
-                      >
-                        {mentor.available ? "در دسترس" : "مشغول"}
-                      </span>
                     </div>
-                    <div className="flex gap-2 mb-2">
-                      <span className="bg-primary/10 text-primary text-xs px-2 py-1 rounded-full">
-                        {ROLE_LABELS[mentor.role]}
-                      </span>
-                      <span className="bg-secondary/10 text-secondary-foreground text-xs px-2 py-1 rounded-full">
-                        {COUNTRY_LABELS[mentor.country] || mentor.country}
-                      </span>
-                    </div>
-                    <p className="text-sm text-muted-foreground">
-                      {mentor.description}
-                    </p>
                   </div>
                 ))}
               </div>
