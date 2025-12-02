@@ -2,6 +2,7 @@ import { Navbar } from "@/components/landing/Navbar";
 import { Hero } from "@/components/landing/Hero";
 import { InterviewsSection } from "@/components/landing/InterviewsSection";
 import { MentorsSection } from "@/components/landing/MentorsSection";
+import { TestimonialsSection } from "@/components/landing/TestimonialsSection";
 import { CommunitySection } from "@/components/landing/CommunitySection";
 import { ResourcesSection } from "@/components/landing/ResourcesSection";
 import { LiveEventsSection } from "@/components/landing/LiveEventsSection";
@@ -17,6 +18,7 @@ const Index = () => {
         <Hero />
         <InterviewsSection />
         <MentorsSection />
+        <TestimonialsSection />
         <CommunitySection />
         <ResourcesSection />
         <LiveEventsSection />

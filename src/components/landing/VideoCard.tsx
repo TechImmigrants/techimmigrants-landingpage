@@ -49,7 +49,7 @@ export function VideoCard({ video }: VideoCardProps) {
           <span className="bg-primary/10 text-primary text-xs px-2 py-1 rounded-full">
             {ROLE_LABELS[video.guestRole]}
           </span>
-          <span className="bg-secondary/10 text-secondary-foreground text-xs px-2 py-1 rounded-full">
+          <span className="bg-secondary text-secondary-foreground text-xs px-2 py-1 rounded-full">
             {COUNTRY_LABELS[video.country] || video.country}
           </span>
         </div>

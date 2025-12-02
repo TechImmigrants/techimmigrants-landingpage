@@ -8,6 +8,7 @@ export interface Mentor {
   company?: string;
   description: string;
   available: boolean;
+  avatar?: string;
 }
 
 export const mentors: Mentor[] = [
