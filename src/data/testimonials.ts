@@ -13,6 +13,7 @@ export const testimonials: Testimonial[] = [
     name: "مریم کریمی",
     role: "Frontend Developer",
     country: "آلمان",
+    avatar: "https://i.pravatar.cc/150?u=maryam",
     text: "تک ایمیگرنتس خیلی بهم کمک کرد که با واقعیت‌های بازار کار آلمان آشنا بشم. مصاحبه‌ها پر از نکات عملی هستن که جایی دیگه پیدا نمیشه.",
   },
   {
@@ -20,6 +21,7 @@ export const testimonials: Testimonial[] = [
     name: "امیر حسینی",
     role: "Backend Engineer",
     country: "هلند",
+    avatar: "https://i.pravatar.cc/150?u=amir",
     text: "از طریق منتورهای تک ایمیگرنتس تونستم برای مصاحبه‌های فنی آماده بشم. الان تو آمستردام کار می‌کنم و خیلی خوشحالم.",
   },
   {
@@ -27,6 +29,7 @@ export const testimonials: Testimonial[] = [
     name: "سارا محمدی",
     role: "Product Manager",
     country: "کانادا",
+    avatar: "https://i.pravatar.cc/150?u=sara2",
     text: "ویدیوهای یوتیوب تک ایمیگرنتس انگیزه‌ای بود که مسیر مهاجرتم رو شروع کنم. دیدن تجربه‌های واقعی خیلی الهام‌بخش بود.",
   },
   {
@@ -34,6 +37,7 @@ export const testimonials: Testimonial[] = [
     name: "رضا احمدی",
     role: "Data Scientist",
     country: "انگلستان",
+    avatar: "https://i.pravatar.cc/150?u=reza",
     text: "گروه تلگرام تک ایمیگرنتس یه جامعه فوق‌العاده‌ست. هر سوالی داشته باشی، کسی هست که کمکت کنه.",
   },
 ];
