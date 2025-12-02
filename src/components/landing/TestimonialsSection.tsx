@@ -1,5 +1,5 @@
 import { testimonials } from "@/data/testimonials";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Quote } from "lucide-react";
 
 export function TestimonialsSection() {
@@ -28,6 +28,7 @@ export function TestimonialsSection() {
               </p>
               <div className="flex items-center gap-3">
                 <Avatar className="h-12 w-12">
+                  <AvatarImage src={testimonial.avatar} alt={testimonial.name} />
                   <AvatarFallback className="bg-primary/10 text-primary font-semibold">
                     {testimonial.name.slice(0, 2)}
                   </AvatarFallback>

@@ -4,7 +4,7 @@ import { Send, MessageCircle, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { mentors } from "@/data/mentors";
 import { COUNTRY_LABELS, ROLE_LABELS } from "@/data/videos";
 import { toast } from "sonner";
@@ -80,6 +80,7 @@ export default function Mentors() {
                   >
                     <div className="flex items-start gap-3">
                       <Avatar className="h-12 w-12 shrink-0">
+                        <AvatarImage src={mentor.avatar} alt={mentor.name} />
                         <AvatarFallback className="bg-primary/10 text-primary font-semibold">
                           {mentor.name.slice(0, 2)}
                         </AvatarFallback>
