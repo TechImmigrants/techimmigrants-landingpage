@@ -10,7 +10,6 @@ export function InterviewsSection() {
   const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
   const [selectedRole, setSelectedRole] = useState<GuestRole | null>(null);
   const [selectedTimeRange, setSelectedTimeRange] = useState<"all" | "3months" | "6months">("all");
-  const [searchQuery, setSearchQuery] = useState("");
 
   const filteredVideos = useMemo(() => {
     const now = new Date();
@@ -31,17 +30,9 @@ export function InterviewsSection() {
       if (selectedTimeRange === "6months" && recordedDate < sixMonthsAgo) {
         return false;
       }
-      // Search filter
-      if (searchQuery) {
-        const query = searchQuery.toLowerCase();
-        return (
-          video.title.toLowerCase().includes(query) ||
-          video.guestName.toLowerCase().includes(query)
-        );
-      }
       return true;
     });
-  }, [selectedCountry, selectedRole, selectedTimeRange, searchQuery]);
+  }, [selectedCountry, selectedRole, selectedTimeRange]);
 
   // Sort: featured first, then by date
   const sortedVideos = useMemo(() => {
@@ -62,7 +53,6 @@ export function InterviewsSection() {
     if (selectedCountry) params.set("country", selectedCountry);
     if (selectedRole) params.set("role", selectedRole);
     if (selectedTimeRange !== "all") params.set("time", selectedTimeRange);
-    if (searchQuery) params.set("q", searchQuery);
     const queryString = params.toString();
     return queryString ? `?${queryString}` : "";
   };
@@ -85,11 +75,9 @@ export function InterviewsSection() {
             selectedCountry={selectedCountry}
             selectedRole={selectedRole}
             selectedTimeRange={selectedTimeRange}
-            searchQuery={searchQuery}
             onCountryChange={setSelectedCountry}
             onRoleChange={setSelectedRole}
             onTimeRangeChange={setSelectedTimeRange}
-            onSearchChange={setSearchQuery}
           />
         </div>
 
