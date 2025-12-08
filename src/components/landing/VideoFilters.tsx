@@ -1,22 +1,34 @@
-import { cn } from "@/lib/utils";
+import { Search } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { videos, ROLES, ROLE_LABELS, COUNTRY_LABELS, GuestRole } from "@/data/videos";
 
 interface VideoFiltersProps {
   selectedCountry: string | null;
   selectedRole: GuestRole | null;
   selectedTimeRange: "all" | "3months" | "6months";
+  searchQuery: string;
   onCountryChange: (country: string | null) => void;
   onRoleChange: (role: GuestRole | null) => void;
   onTimeRangeChange: (range: "all" | "3months" | "6months") => void;
+  onSearchChange: (query: string) => void;
 }
 
 export function VideoFilters({
   selectedCountry,
   selectedRole,
   selectedTimeRange,
+  searchQuery,
   onCountryChange,
   onRoleChange,
   onTimeRangeChange,
+  onSearchChange,
 }: VideoFiltersProps) {
   // Get unique countries from data
   const countries = [...new Set(videos.map((v) => v.country))];
@@ -29,89 +41,70 @@ export function VideoFilters({
 
   return (
     <div className="space-y-4">
-      {/* Country Filter */}
-      <div>
-        <div className="text-sm font-medium text-muted-foreground mb-2">کشور:</div>
-        <div className="flex flex-wrap gap-2 overflow-x-auto pb-2 scrollbar-hide">
-          <button
-            onClick={() => onCountryChange(null)}
-            className={cn(
-              "px-4 py-2 rounded-full text-sm font-medium transition-colors whitespace-nowrap",
-              selectedCountry === null
-                ? "bg-primary text-primary-foreground"
-                : "bg-card border border-border text-foreground hover:bg-accent"
-            )}
-          >
-            همه کشورها
-          </button>
-          {countries.map((country) => (
-            <button
-              key={country}
-              onClick={() => onCountryChange(country)}
-              className={cn(
-                "px-4 py-2 rounded-full text-sm font-medium transition-colors whitespace-nowrap",
-                selectedCountry === country
-                  ? "bg-primary text-primary-foreground"
-                  : "bg-card border border-border text-foreground hover:bg-accent"
-              )}
-            >
-              {COUNTRY_LABELS[country] || country}
-            </button>
-          ))}
+      <div className="flex flex-col md:flex-row gap-4">
+        {/* Search Box */}
+        <div className="relative flex-1">
+          <Search className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Input
+            value={searchQuery}
+            onChange={(e) => onSearchChange(e.target.value)}
+            placeholder="جستجو در عنوان مصاحبه..."
+            className="pr-10"
+          />
         </div>
-      </div>
 
-      {/* Role Filter */}
-      <div>
-        <div className="text-sm font-medium text-muted-foreground mb-2">نقش:</div>
-        <div className="flex flex-wrap gap-2 overflow-x-auto pb-2 scrollbar-hide">
-          <button
-            onClick={() => onRoleChange(null)}
-            className={cn(
-              "px-4 py-2 rounded-full text-sm font-medium transition-colors whitespace-nowrap",
-              selectedRole === null
-                ? "bg-primary text-primary-foreground"
-                : "bg-card border border-border text-foreground hover:bg-accent"
-            )}
-          >
-            همه نقش‌ها
-          </button>
-          {ROLES.map((role) => (
-            <button
-              key={role}
-              onClick={() => onRoleChange(role)}
-              className={cn(
-                "px-4 py-2 rounded-full text-sm font-medium transition-colors whitespace-nowrap",
-                selectedRole === role
-                  ? "bg-primary text-primary-foreground"
-                  : "bg-card border border-border text-foreground hover:bg-accent"
-              )}
-            >
-              {ROLE_LABELS[role]}
-            </button>
-          ))}
-        </div>
-      </div>
+        {/* Country Dropdown */}
+        <Select
+          value={selectedCountry || "all"}
+          onValueChange={(value) => onCountryChange(value === "all" ? null : value)}
+        >
+          <SelectTrigger className="w-full md:w-[180px]">
+            <SelectValue placeholder="کشور" />
+          </SelectTrigger>
+          <SelectContent className="bg-popover z-50">
+            <SelectItem value="all">همه کشورها</SelectItem>
+            {countries.map((country) => (
+              <SelectItem key={country} value={country}>
+                {COUNTRY_LABELS[country] || country}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
 
-      {/* Time Range Filter */}
-      <div>
-        <div className="text-sm font-medium text-muted-foreground mb-2">زمان:</div>
-        <div className="flex flex-wrap gap-2">
-          {timeRangeOptions.map((option) => (
-            <button
-              key={option.value}
-              onClick={() => onTimeRangeChange(option.value)}
-              className={cn(
-                "px-4 py-2 rounded-full text-sm font-medium transition-colors",
-                selectedTimeRange === option.value
-                  ? "bg-primary text-primary-foreground"
-                  : "bg-card border border-border text-foreground hover:bg-accent"
-              )}
-            >
-              {option.label}
-            </button>
-          ))}
-        </div>
+        {/* Role Dropdown */}
+        <Select
+          value={selectedRole || "all"}
+          onValueChange={(value) => onRoleChange(value === "all" ? null : value as GuestRole)}
+        >
+          <SelectTrigger className="w-full md:w-[180px]">
+            <SelectValue placeholder="نقش" />
+          </SelectTrigger>
+          <SelectContent className="bg-popover z-50">
+            <SelectItem value="all">همه نقش‌ها</SelectItem>
+            {ROLES.map((role) => (
+              <SelectItem key={role} value={role}>
+                {ROLE_LABELS[role]}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+
+        {/* Time Range Dropdown */}
+        <Select
+          value={selectedTimeRange}
+          onValueChange={(value) => onTimeRangeChange(value as "all" | "3months" | "6months")}
+        >
+          <SelectTrigger className="w-full md:w-[150px]">
+            <SelectValue placeholder="زمان" />
+          </SelectTrigger>
+          <SelectContent className="bg-popover z-50">
+            {timeRangeOptions.map((option) => (
+              <SelectItem key={option.value} value={option.value}>
+                {option.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
     </div>
   );

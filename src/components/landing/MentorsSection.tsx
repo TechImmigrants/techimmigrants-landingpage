@@ -1,15 +1,31 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Link } from "react-router-dom";
-import { Send, MessageCircle, ArrowLeft } from "lucide-react";
+import { Send, MessageCircle, ArrowLeft, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Combobox } from "@/components/ui/combobox";
 import { mentors } from "@/data/mentors";
 import { COUNTRY_LABELS, ROLE_LABELS } from "@/data/videos";
 import { toast } from "sonner";
 
 const MAX_MENTORS_DISPLAY = 3;
+
+// Country options for combobox
+const countryOptions = [
+  { value: "Iran", label: "ایران" },
+  { value: "Germany", label: "آلمان" },
+  { value: "UK", label: "انگلستان" },
+  { value: "Canada", label: "کانادا" },
+  { value: "Netherlands", label: "هلند" },
+  { value: "USA", label: "آمریکا" },
+  { value: "Australia", label: "استرالیا" },
+  { value: "France", label: "فرانسه" },
+  { value: "Sweden", label: "سوئد" },
+  { value: "Turkey", label: "ترکیه" },
+  { value: "UAE", label: "امارات" },
+];
 
 export function MentorsSection() {
   const [formData, setFormData] = useState({
@@ -107,9 +123,21 @@ export function MentorsSection() {
                           {COUNTRY_LABELS[mentor.country] || mentor.country}
                         </span>
                       </div>
-                      <p className="text-sm text-muted-foreground">
+                      <p className="text-sm text-muted-foreground mb-2">
                         {mentor.description}
                       </p>
+                      {mentor.profileUrl && (
+                        <Button variant="outline" size="sm" asChild className="gap-1">
+                          <a
+                            href={mentor.profileUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            <ExternalLink className="h-3 w-3" />
+                            پروفایل
+                          </a>
+                        </Button>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -169,24 +197,32 @@ export function MentorsSection() {
                   <label className="block text-sm font-medium text-foreground mb-1">
                     کشور فعلی
                   </label>
-                  <Input
+                  <Combobox
+                    options={countryOptions}
                     value={formData.currentCountry}
-                    onChange={(e) =>
-                      setFormData({ ...formData, currentCountry: e.target.value })
+                    onValueChange={(value) =>
+                      setFormData({ ...formData, currentCountry: value })
                     }
-                    placeholder="مثلا: ایران"
+                    placeholder="انتخاب یا تایپ کنید"
+                    searchPlaceholder="جستجو..."
+                    className="w-full"
+                    allowCustomValue
                   />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-foreground mb-1">
                     کشور هدف
                   </label>
-                  <Input
+                  <Combobox
+                    options={countryOptions}
                     value={formData.targetCountry}
-                    onChange={(e) =>
-                      setFormData({ ...formData, targetCountry: e.target.value })
+                    onValueChange={(value) =>
+                      setFormData({ ...formData, targetCountry: value })
                     }
-                    placeholder="مثلا: آلمان"
+                    placeholder="انتخاب یا تایپ کنید"
+                    searchPlaceholder="جستجو..."
+                    className="w-full"
+                    allowCustomValue
                   />
                 </div>
               </div>

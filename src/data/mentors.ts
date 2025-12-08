@@ -9,6 +9,7 @@ export interface Mentor {
   description: string;
   available: boolean;
   avatar?: string;
+  profileUrl?: string;
 }
 
 export const mentors: Mentor[] = [
@@ -21,6 +22,7 @@ export const mentors: Mentor[] = [
     description: "۵ سال تجربه کار در لندن، آماده کمک در زمینه مصاحبه فنی و ویزای کاری",
     available: true,
     avatar: "https://i.pravatar.cc/150?u=ali",
+    profileUrl: "https://linkedin.com/in/example1",
   },
   {
     id: "2",
@@ -31,6 +33,7 @@ export const mentors: Mentor[] = [
     description: "متخصص UX/UI، می‌تونم در زمینه پورتفولیو و مصاحبه طراحی کمک کنم",
     available: true,
     avatar: "https://i.pravatar.cc/150?u=sara",
+    profileUrl: "https://linkedin.com/in/example2",
   },
   {
     id: "3",
@@ -40,6 +43,7 @@ export const mentors: Mentor[] = [
     description: "iOS Developer در تورنتو، آشنا با مسیر اکسپرس انتری و بازار کار کانادا",
     available: false,
     avatar: "https://i.pravatar.cc/150?u=mohammad",
+    profileUrl: "https://linkedin.com/in/example3",
   },
   {
     id: "4",
@@ -50,5 +54,6 @@ export const mentors: Mentor[] = [
     description: "Data Engineer با تجربه تحصیل و کار در هلند",
     available: true,
     avatar: "https://i.pravatar.cc/150?u=negar",
+    profileUrl: "https://linkedin.com/in/example4",
   },
 ];
