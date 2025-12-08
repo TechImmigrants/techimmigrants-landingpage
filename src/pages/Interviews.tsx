@@ -14,6 +14,7 @@ export default function Interviews() {
   const initialCountry = searchParams.get("country");
   const initialRole = searchParams.get("role") as GuestRole | null;
   const initialTime = searchParams.get("time") as "all" | "3months" | "6months" | null;
+  const initialQuery = searchParams.get("q") || "";
 
   const [selectedCountry, setSelectedCountry] = useState<string | null>(initialCountry);
   const [selectedRole, setSelectedRole] = useState<GuestRole | null>(
@@ -22,6 +23,7 @@ export default function Interviews() {
   const [selectedTimeRange, setSelectedTimeRange] = useState<"all" | "3months" | "6months">(
     initialTime === "3months" || initialTime === "6months" ? initialTime : "all"
   );
+  const [searchQuery, setSearchQuery] = useState(initialQuery);
 
   const filteredVideos = useMemo(() => {
     const now = new Date();
@@ -42,9 +44,16 @@ export default function Interviews() {
       if (selectedTimeRange === "6months" && recordedDate < sixMonthsAgo) {
         return false;
       }
+      if (searchQuery) {
+        const query = searchQuery.toLowerCase();
+        return (
+          video.title.toLowerCase().includes(query) ||
+          video.guestName.toLowerCase().includes(query)
+        );
+      }
       return true;
     });
-  }, [selectedCountry, selectedRole, selectedTimeRange]);
+  }, [selectedCountry, selectedRole, selectedTimeRange, searchQuery]);
 
   const sortedVideos = useMemo(() => {
     return [...filteredVideos].sort((a, b) => {
@@ -59,7 +68,6 @@ export default function Interviews() {
       <Navbar />
       <main className="pt-20 pb-16">
         <div className="container mx-auto px-4">
-          {/* Back button */}
           <div className="mb-6">
             <Button variant="ghost" asChild>
               <Link to="/" className="gap-2">
@@ -74,28 +82,27 @@ export default function Interviews() {
               همه مصاحبه‌ها
             </h1>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              گفتگو با ایرانیان موفق در صنعت تکنولوژی در کشورهای مختلف. از تجربیات واقعی مهاجرت، کار و زندگی بشنوید.
+              گفتگو با ایرانیان موفق در صنعت تکنولوژی در کشورهای مختلف.
             </p>
           </div>
 
-          {/* Filters */}
           <div className="bg-card rounded-xl p-4 mb-8 border border-border">
             <VideoFilters
               selectedCountry={selectedCountry}
               selectedRole={selectedRole}
               selectedTimeRange={selectedTimeRange}
+              searchQuery={searchQuery}
               onCountryChange={setSelectedCountry}
               onRoleChange={setSelectedRole}
               onTimeRangeChange={setSelectedTimeRange}
+              onSearchChange={setSearchQuery}
             />
           </div>
 
-          {/* Results count */}
           <div className="text-sm text-muted-foreground mb-6">
             {sortedVideos.length} مصاحبه یافت شد
           </div>
 
-          {/* Video Grid */}
           {sortedVideos.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {sortedVideos.map((video) => (
@@ -104,9 +111,7 @@ export default function Interviews() {
             </div>
           ) : (
             <div className="text-center py-12">
-              <p className="text-muted-foreground">
-                هیچ مصاحبه‌ای با این فیلترها یافت نشد.
-              </p>
+              <p className="text-muted-foreground">هیچ مصاحبه‌ای یافت نشد.</p>
             </div>
           )}
         </div>

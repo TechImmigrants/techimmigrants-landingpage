@@ -1,8 +1,14 @@
 import { useState } from "react";
-import { Calendar, MapPin, Send, ExternalLink, Video } from "lucide-react";
+import { Calendar, MapPin, Send, Video, CalendarPlus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { events } from "@/data/events";
 import { COUNTRY_LABELS, ROLE_LABELS } from "@/data/videos";
 import { toast } from "sonner";
@@ -11,6 +17,60 @@ interface QuestionFormData {
   name: string;
   contact: string;
   question: string;
+}
+
+// Generate calendar URLs
+function generateGoogleCalendarUrl(event: typeof events[0]) {
+  const startDate = new Date(event.datetime);
+  const endDate = new Date(startDate.getTime() + 60 * 60 * 1000); // 1 hour duration
+
+  const formatDate = (date: Date) =>
+    date.toISOString().replace(/-|:|\.\d{3}/g, "");
+
+  const params = new URLSearchParams({
+    action: "TEMPLATE",
+    text: event.title,
+    dates: `${formatDate(startDate)}/${formatDate(endDate)}`,
+    details: `${event.description}\n\nمهمان: ${event.guestName}${event.youtubeOrEventUrl ? `\n\nلینک لایو: ${event.youtubeOrEventUrl}` : ""}`,
+    location: event.platform,
+  });
+
+  return `https://calendar.google.com/calendar/render?${params.toString()}`;
+}
+
+function generateICSContent(event: typeof events[0]) {
+  const startDate = new Date(event.datetime);
+  const endDate = new Date(startDate.getTime() + 60 * 60 * 1000);
+
+  const formatDate = (date: Date) =>
+    date.toISOString().replace(/-|:|\.\d{3}/g, "").slice(0, -1) + "Z";
+
+  return `BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Tech Immigrants//Live Event//FA
+BEGIN:VEVENT
+UID:${event.id}@techimmigrants.com
+DTSTAMP:${formatDate(new Date())}
+DTSTART:${formatDate(startDate)}
+DTEND:${formatDate(endDate)}
+SUMMARY:${event.title}
+DESCRIPTION:${event.description}\\n\\nمهمان: ${event.guestName}${event.youtubeOrEventUrl ? `\\n\\nلینک لایو: ${event.youtubeOrEventUrl}` : ""}
+LOCATION:${event.platform}
+END:VEVENT
+END:VCALENDAR`;
+}
+
+function downloadICS(event: typeof events[0]) {
+  const content = generateICSContent(event);
+  const blob = new Blob([content], { type: "text/calendar;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = `${event.title.replace(/\s+/g, "_")}.ics`;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
 }
 
 export function LiveEventsSection() {
@@ -113,7 +173,7 @@ export function LiveEventsSection() {
                       <span>{formatDateTime(event.datetime)}</span>
                     </div>
 
-                    <div className="flex gap-3">
+                    <div className="flex flex-wrap gap-3">
                       {event.youtubeOrEventUrl && (
                         <Button variant="outline" size="sm" asChild className="gap-1 transition-transform hover:scale-[1.02]">
                           <a
@@ -126,6 +186,31 @@ export function LiveEventsSection() {
                           </a>
                         </Button>
                       )}
+                      
+                      {/* Add to Calendar Dropdown */}
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="outline" size="sm" className="gap-1 transition-transform hover:scale-[1.02]">
+                            <CalendarPlus className="h-4 w-4" />
+                            افزودن به تقویم
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="start" className="bg-popover z-50">
+                          <DropdownMenuItem asChild>
+                            <a
+                              href={generateGoogleCalendarUrl(event)}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              Google Calendar
+                            </a>
+                          </DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => downloadICS(event)}>
+                            دانلود فایل ICS (Apple/Outlook)
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+
                       <Button
                         size="sm"
                         variant={isExpanded ? "secondary" : "default"}

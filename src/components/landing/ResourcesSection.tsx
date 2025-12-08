@@ -3,8 +3,14 @@ import { Link } from "react-router-dom";
 import { ExternalLink, Book, Globe, Wrench, FileText, Search, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { cn } from "@/lib/utils";
-import { resources, ResourceType, RESOURCE_TYPE_LABELS } from "@/data/resources";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { resources, ResourceType, ResourceSubject, RESOURCE_TYPE_LABELS, RESOURCE_SUBJECT_LABELS } from "@/data/resources";
 import { videos } from "@/data/videos";
 
 const resourceTypeIcons: Record<ResourceType, typeof Book> = {
@@ -18,12 +24,18 @@ const MAX_RESOURCES_DISPLAY = 6;
 
 export function ResourcesSection() {
   const [selectedType, setSelectedType] = useState<ResourceType | null>(null);
+  const [selectedSubject, setSelectedSubject] = useState<ResourceSubject | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
 
   const filteredResources = useMemo(() => {
     return resources.filter((resource) => {
       // Type filter
-      if (selectedType && resource.type !== selectedType) {
+      if (selectedType && !resource.type.includes(selectedType)) {
+        return false;
+      }
+
+      // Subject filter
+      if (selectedSubject && !resource.subjects.includes(selectedSubject)) {
         return false;
       }
 
@@ -38,7 +50,7 @@ export function ResourcesSection() {
 
       return true;
     });
-  }, [selectedType, searchQuery]);
+  }, [selectedType, selectedSubject, searchQuery]);
 
   const displayedResources = filteredResources.slice(0, MAX_RESOURCES_DISPLAY);
   const hasMoreResources = filteredResources.length > MAX_RESOURCES_DISPLAY;
@@ -47,6 +59,7 @@ export function ResourcesSection() {
   const getShowAllLink = () => {
     const params = new URLSearchParams();
     if (selectedType) params.set("type", selectedType);
+    if (selectedSubject) params.set("subject", selectedSubject);
     const queryString = params.toString();
     return `/resources${queryString ? `?${queryString}` : ""}`;
   };
@@ -75,37 +88,8 @@ export function ResourcesSection() {
         {/* Filters */}
         <div className="bg-card rounded-xl p-4 mb-8 border border-border">
           <div className="flex flex-col md:flex-row gap-4">
-            {/* Type Filter */}
-            <div className="flex flex-wrap gap-2">
-              <button
-                onClick={() => setSelectedType(null)}
-                className={cn(
-                  "px-4 py-2 rounded-full text-sm font-medium transition-colors",
-                  selectedType === null
-                    ? "bg-primary text-primary-foreground"
-                    : "bg-background border border-border text-foreground hover:bg-accent"
-                )}
-              >
-                همه
-              </button>
-              {(Object.keys(RESOURCE_TYPE_LABELS) as ResourceType[]).map((type) => (
-                <button
-                  key={type}
-                  onClick={() => setSelectedType(type)}
-                  className={cn(
-                    "px-4 py-2 rounded-full text-sm font-medium transition-colors flex items-center gap-1",
-                    selectedType === type
-                      ? "bg-primary text-primary-foreground"
-                      : "bg-background border border-border text-foreground hover:bg-accent"
-                  )}
-                >
-                  {RESOURCE_TYPE_LABELS[type]}
-                </button>
-              ))}
-            </div>
-
             {/* Search */}
-            <div className="relative flex-1 md:max-w-xs">
+            <div className="relative flex-1">
               <Search className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
                 value={searchQuery}
@@ -114,6 +98,42 @@ export function ResourcesSection() {
                 className="pr-10"
               />
             </div>
+
+            {/* Type Dropdown */}
+            <Select
+              value={selectedType || "all"}
+              onValueChange={(value) => setSelectedType(value === "all" ? null : value as ResourceType)}
+            >
+              <SelectTrigger className="w-full md:w-[180px]">
+                <SelectValue placeholder="نوع منبع" />
+              </SelectTrigger>
+              <SelectContent className="bg-popover z-50">
+                <SelectItem value="all">همه انواع</SelectItem>
+                {(Object.keys(RESOURCE_TYPE_LABELS) as ResourceType[]).map((type) => (
+                  <SelectItem key={type} value={type}>
+                    {RESOURCE_TYPE_LABELS[type]}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+
+            {/* Subject Dropdown */}
+            <Select
+              value={selectedSubject || "all"}
+              onValueChange={(value) => setSelectedSubject(value === "all" ? null : value as ResourceSubject)}
+            >
+              <SelectTrigger className="w-full md:w-[180px]">
+                <SelectValue placeholder="موضوع" />
+              </SelectTrigger>
+              <SelectContent className="bg-popover z-50">
+                <SelectItem value="all">همه موضوعات</SelectItem>
+                {(Object.keys(RESOURCE_SUBJECT_LABELS) as ResourceSubject[]).map((subject) => (
+                  <SelectItem key={subject} value={subject}>
+                    {RESOURCE_SUBJECT_LABELS[subject]}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
         </div>
 
@@ -126,7 +146,7 @@ export function ResourcesSection() {
         {displayedResources.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {displayedResources.map((resource) => {
-              const Icon = resourceTypeIcons[resource.type];
+              const Icon = resourceTypeIcons[resource.type[0]];
               const relatedGuest = getRelatedGuest(resource.id);
 
               return (
@@ -138,11 +158,22 @@ export function ResourcesSection() {
                     <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
                       <Icon className="h-5 w-5 text-primary" />
                     </div>
-                    <span className="bg-accent text-accent-foreground text-xs px-2 py-1 rounded-full">
-                      {RESOURCE_TYPE_LABELS[resource.type]}
-                    </span>
+                    <div className="flex flex-wrap gap-1 justify-end">
+                      {resource.type.map((t) => (
+                        <span key={t} className="bg-accent text-accent-foreground text-xs px-2 py-1 rounded-full">
+                          {RESOURCE_TYPE_LABELS[t]}
+                        </span>
+                      ))}
+                    </div>
                   </div>
                   <h3 className="font-bold text-foreground mb-2">{resource.title}</h3>
+                  <div className="flex flex-wrap gap-1 mb-2">
+                    {resource.subjects.map((subject) => (
+                      <span key={subject} className="bg-secondary/50 text-secondary-foreground text-xs px-2 py-0.5 rounded">
+                        {RESOURCE_SUBJECT_LABELS[subject]}
+                      </span>
+                    ))}
+                  </div>
                   <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
                     {resource.description}
                   </p>
