@@ -1,12 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Play, Users } from "lucide-react";
 
-const stats = [
-  { label: "کشور", value: "+۷" },
-  { label: "نقش شغلی", value: "+۹" },
-  { label: "ساعت مصاحبه", value: "+۵۰" },
-];
-
 export function Hero() {
   const scrollToSection = (href: string) => {
     const element = document.querySelector(href);
@@ -52,21 +46,6 @@ export function Hero() {
             </Button>
           </div>
 
-          {/* Stats */}
-          <div className="flex flex-wrap justify-center gap-4 md:gap-8">
-            {stats.map((stat, index) => (
-              <div
-                key={stat.label}
-                className="bg-card rounded-xl px-6 py-4 shadow-sm border border-border animate-scale-in opacity-0 hover:shadow-md transition-shadow"
-                style={{ animationDelay: `${300 + index * 100}ms` }}
-              >
-                <div className="text-2xl md:text-3xl font-bold text-primary">
-                  {stat.value}
-                </div>
-                <div className="text-sm text-muted-foreground">{stat.label}</div>
-              </div>
-            ))}
-          </div>
         </div>
       </div>
     </section>

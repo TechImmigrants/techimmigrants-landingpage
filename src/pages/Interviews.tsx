@@ -14,7 +14,6 @@ export default function Interviews() {
   const initialCountry = searchParams.get("country");
   const initialRole = searchParams.get("role") as GuestRole | null;
   const initialTime = searchParams.get("time") as "all" | "3months" | "6months" | null;
-  const initialQuery = searchParams.get("q") || "";
 
   const [selectedCountry, setSelectedCountry] = useState<string | null>(initialCountry);
   const [selectedRole, setSelectedRole] = useState<GuestRole | null>(
@@ -23,7 +22,6 @@ export default function Interviews() {
   const [selectedTimeRange, setSelectedTimeRange] = useState<"all" | "3months" | "6months">(
     initialTime === "3months" || initialTime === "6months" ? initialTime : "all"
   );
-  const [searchQuery, setSearchQuery] = useState(initialQuery);
 
   const filteredVideos = useMemo(() => {
     const now = new Date();
@@ -44,16 +42,9 @@ export default function Interviews() {
       if (selectedTimeRange === "6months" && recordedDate < sixMonthsAgo) {
         return false;
       }
-      if (searchQuery) {
-        const query = searchQuery.toLowerCase();
-        return (
-          video.title.toLowerCase().includes(query) ||
-          video.guestName.toLowerCase().includes(query)
-        );
-      }
       return true;
     });
-  }, [selectedCountry, selectedRole, selectedTimeRange, searchQuery]);
+  }, [selectedCountry, selectedRole, selectedTimeRange]);
 
   const sortedVideos = useMemo(() => {
     return [...filteredVideos].sort((a, b) => {
@@ -91,11 +82,9 @@ export default function Interviews() {
               selectedCountry={selectedCountry}
               selectedRole={selectedRole}
               selectedTimeRange={selectedTimeRange}
-              searchQuery={searchQuery}
               onCountryChange={setSelectedCountry}
               onRoleChange={setSelectedRole}
               onTimeRangeChange={setSelectedTimeRange}
-              onSearchChange={setSearchQuery}
             />
           </div>
 
