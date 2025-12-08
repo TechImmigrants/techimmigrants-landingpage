@@ -1,5 +1,16 @@
 import { Badge } from "@/components/ui/badge";
 import { videos, ROLES, ROLE_LABELS, COUNTRY_LABELS, GuestRole } from "@/data/videos";
+import { 
+  Server, 
+  Monitor, 
+  Smartphone, 
+  Database, 
+  ClipboardList, 
+  Cloud, 
+  Palette, 
+  Rocket, 
+  GraduationCap 
+} from "lucide-react";
 
 // Country flags mapping
 const COUNTRY_FLAGS: Record<string, string> = {
@@ -10,6 +21,19 @@ const COUNTRY_FLAGS: Record<string, string> = {
   "Sweden": "🇸🇪",
   "USA": "🇺🇸",
   "Australia": "🇦🇺",
+};
+
+// Role icons mapping
+const ROLE_ICONS: Record<GuestRole, React.ReactNode> = {
+  "Backend": <Server className="h-3.5 w-3.5" />,
+  "Frontend": <Monitor className="h-3.5 w-3.5" />,
+  "Mobile": <Smartphone className="h-3.5 w-3.5" />,
+  "Data": <Database className="h-3.5 w-3.5" />,
+  "Product Manager": <ClipboardList className="h-3.5 w-3.5" />,
+  "DevOps / SRE": <Cloud className="h-3.5 w-3.5" />,
+  "Designer": <Palette className="h-3.5 w-3.5" />,
+  "Founder": <Rocket className="h-3.5 w-3.5" />,
+  "Student": <GraduationCap className="h-3.5 w-3.5" />,
 };
 
 interface VideoFiltersProps {
@@ -74,9 +98,10 @@ export function VideoFilters({
           <Badge
             key={role}
             variant={selectedRole === role ? "default" : "outline"}
-            className="cursor-pointer hover:bg-primary/80 transition-colors px-3 py-1.5"
+            className="cursor-pointer hover:bg-primary/80 transition-colors px-3 py-1.5 flex items-center gap-1.5"
             onClick={() => onRoleChange(role)}
           >
+            {ROLE_ICONS[role]}
             {ROLE_LABELS[role]}
           </Badge>
         ))}
