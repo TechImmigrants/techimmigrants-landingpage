@@ -26,7 +26,7 @@ export function Navbar() {
   return (
     <nav className="sticky top-0 z-50 bg-card/95 backdrop-blur-sm border-b border-border">
       <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between h-16 flex-row-reverse">
           {/* Logo */}
           <a href="#" className="text-xl font-bold text-primary">
             Tech Immigrants

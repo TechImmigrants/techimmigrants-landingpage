@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { MessageCircle, ArrowLeft, ExternalLink } from "lucide-react";
+import { MessageCircle, ArrowLeft, ExternalLink, Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { mentors } from "@/data/mentors";
@@ -72,18 +72,32 @@ export function MentorsSection() {
                   <p className="text-sm text-muted-foreground mb-2">
                     {mentor.description}
                   </p>
-                  {mentor.profileUrl && (
-                    <Button variant="outline" size="sm" asChild className="gap-1">
-                      <a
-                        href={mentor.profileUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <ExternalLink className="h-3 w-3" />
-                        پروفایل
-                      </a>
-                    </Button>
-                  )}
+                  <div className="flex gap-2 flex-wrap">
+                    {mentor.youtubeVideoId && (
+                      <Button variant="default" size="sm" asChild className="gap-1">
+                        <a
+                          href={`https://www.youtube.com/watch?v=${mentor.youtubeVideoId}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <Play className="h-3 w-3" />
+                          مصاحبه
+                        </a>
+                      </Button>
+                    )}
+                    {mentor.profileUrl && (
+                      <Button variant="outline" size="sm" asChild className="gap-1">
+                        <a
+                          href={mentor.profileUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <ExternalLink className="h-3 w-3" />
+                          پروفایل
+                        </a>
+                      </Button>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>

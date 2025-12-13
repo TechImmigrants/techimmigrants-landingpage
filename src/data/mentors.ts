@@ -10,6 +10,7 @@ export interface Mentor {
   available: boolean;
   avatar?: string;
   profileUrl?: string;
+  youtubeVideoId?: string;
 }
 
 export const mentors: Mentor[] = [
@@ -23,6 +24,7 @@ export const mentors: Mentor[] = [
     available: true,
     avatar: "https://i.pravatar.cc/150?u=ali",
     profileUrl: "https://linkedin.com/in/example1",
+    youtubeVideoId: "dQw4w9WgXcQ",
   },
   {
     id: "2",
@@ -34,6 +36,7 @@ export const mentors: Mentor[] = [
     available: true,
     avatar: "https://i.pravatar.cc/150?u=sara",
     profileUrl: "https://linkedin.com/in/example2",
+    youtubeVideoId: "dQw4w9WgXcQ",
   },
   {
     id: "3",
@@ -44,6 +47,7 @@ export const mentors: Mentor[] = [
     available: false,
     avatar: "https://i.pravatar.cc/150?u=mohammad",
     profileUrl: "https://linkedin.com/in/example3",
+    youtubeVideoId: "dQw4w9WgXcQ",
   },
   {
     id: "4",
@@ -55,5 +59,6 @@ export const mentors: Mentor[] = [
     available: true,
     avatar: "https://i.pravatar.cc/150?u=negar",
     profileUrl: "https://linkedin.com/in/example4",
+    youtubeVideoId: "dQw4w9WgXcQ",
   },
 ];
