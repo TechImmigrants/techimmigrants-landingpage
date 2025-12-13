@@ -22,7 +22,7 @@ export function Hero() {
           <h1 className="text-3xl md:text-5xl font-bold text-foreground leading-tight mb-6 animate-fade-in-up">
             تجربه‌های مهاجرت در دنیای تکنولوژی، از زبان ایرانی‌های مهاجر
           </h1>
-          <p className="text-lg md:text-xl text-muted-foreground mb-4 leading-[2.5] animate-fade-in-up [animation-delay:100ms] opacity-0">
+          <p className="text-lg md:text-xl text-muted-foreground mb-4 leading-[2.75] animate-fade-in-up [animation-delay:100ms] opacity-0">
             تک ایمیگرنتس یک جامعه داوطلبانه است که با مصاحبه از ایرانیان شاغل در صنعت تکنولوژی در کشورهای مختلف، تجربیات واقعی مهاجرت و کار رو با شما به اشتراک می‌ذاره.
           </p>
 
