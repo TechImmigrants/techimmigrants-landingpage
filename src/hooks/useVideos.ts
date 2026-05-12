@@ -22,15 +22,31 @@ type SupabaseVideo = {
 
 const SLUG_TO_ROLE: Record<string, GuestRole> = {
   backend: 'Backend',
+  'back-end': 'Backend',
   frontend: 'Frontend',
+  'front-end': 'Frontend',
   mobile: 'Mobile',
+  'mobile-developer': 'Mobile',
   data: 'Data',
+  'data-scientist': 'Data',
+  'data-engineer': 'Data',
   'product-manager': 'Product Manager',
   'devops-sre': 'DevOps / SRE',
   devops: 'DevOps / SRE',
   designer: 'Designer',
+  'product-designer': 'Designer',
+  'ux-researcher': 'Designer',
   founder: 'Founder',
   student: 'Student',
+  'software-engineer': 'Backend',
+  'cloud-engineer': 'DevOps / SRE',
+  'security-engineer': 'Backend',
+  'network-engineer': 'Backend',
+  'embedded-engineer': 'Backend',
+  'system-admin': 'DevOps / SRE',
+  'engineering-manager': 'Backend',
+  'qa-engineer': 'Backend',
+  'game-artist': 'Designer',
 }
 
 export function useVideos() {

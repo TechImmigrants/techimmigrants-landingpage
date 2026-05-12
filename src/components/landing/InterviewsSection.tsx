@@ -34,7 +34,7 @@ export function InterviewsSection() {
       }
       return true;
     });
-  }, [selectedCountry, selectedRole, selectedTimeRange]);
+  }, [videos, selectedCountry, selectedRole, selectedTimeRange]);
 
   // Sort: featured first, then by date
   const sortedVideos = useMemo(() => {
