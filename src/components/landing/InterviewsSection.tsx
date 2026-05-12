@@ -1,12 +1,14 @@
 import { useState, useMemo } from "react";
 import { Link } from "react-router-dom";
-import { videos, GuestRole } from "@/data/videos";
+import { GuestRole } from "@/data/videos";
+import { useVideos } from "@/hooks/useVideos";
 import { VideoFilters } from "./VideoFilters";
 import { VideoCard } from "./VideoCard";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 
 export function InterviewsSection() {
+  const { videos, loading, error } = useVideos();
   const [selectedCountry, setSelectedCountry] = useState<string | null>(null);
   const [selectedRole, setSelectedRole] = useState<GuestRole | null>(null);
   const [selectedTimeRange, setSelectedTimeRange] = useState<"all" | "3months" | "6months">("all");
@@ -72,6 +74,7 @@ export function InterviewsSection() {
         {/* Filters */}
         <div className="bg-card rounded-xl p-4 mb-8 border border-border">
           <VideoFilters
+            videos={videos}
             selectedCountry={selectedCountry}
             selectedRole={selectedRole}
             selectedTimeRange={selectedTimeRange}
@@ -81,13 +84,27 @@ export function InterviewsSection() {
           />
         </div>
 
+        {/* Loading / Error */}
+        {loading && (
+          <div className="text-center py-12">
+            <p className="text-muted-foreground">در حال بارگذاری...</p>
+          </div>
+        )}
+        {error && (
+          <div className="text-center py-12">
+            <p className="text-destructive">{error}</p>
+          </div>
+        )}
+
         {/* Results count */}
+        {!loading && !error && (
         <div className="text-sm text-muted-foreground mb-6">
           {sortedVideos.length} مصاحبه یافت شد
         </div>
+        )}
 
         {/* Video Grid */}
-        {displayedVideos.length > 0 ? (
+        {!loading && !error && displayedVideos.length > 0 ? (
           <>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {displayedVideos.map((video) => (
@@ -107,13 +124,13 @@ export function InterviewsSection() {
               </div>
             )}
           </>
-        ) : (
+        ) : !loading && !error ? (
           <div className="text-center py-12">
             <p className="text-muted-foreground">
               هیچ مصاحبه‌ای با این فیلترها یافت نشد.
             </p>
           </div>
-        )}
+        ) : null}
       </div>
     </section>
   );

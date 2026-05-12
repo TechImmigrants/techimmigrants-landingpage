@@ -1,6 +1,7 @@
 import { useState, useMemo } from "react";
 import { useSearchParams, Link } from "react-router-dom";
-import { videos, GuestRole, ROLES } from "@/data/videos";
+import { GuestRole, ROLES } from "@/data/videos";
+import { useVideos } from "@/hooks/useVideos";
 import { VideoFilters } from "@/components/landing/VideoFilters";
 import { VideoCard } from "@/components/landing/VideoCard";
 import { Navbar } from "@/components/landing/Navbar";
@@ -9,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 
 export default function Interviews() {
+  const { videos, loading, error } = useVideos();
   const [searchParams] = useSearchParams();
   
   const initialCountry = searchParams.get("country");
@@ -79,6 +81,7 @@ export default function Interviews() {
 
           <div className="bg-card rounded-xl p-4 mb-8 border border-border">
             <VideoFilters
+              videos={videos}
               selectedCountry={selectedCountry}
               selectedRole={selectedRole}
               selectedTimeRange={selectedTimeRange}

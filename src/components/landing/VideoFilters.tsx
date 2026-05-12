@@ -1,5 +1,6 @@
 import { Badge } from "@/components/ui/badge";
-import { videos, ROLES, ROLE_LABELS, COUNTRY_LABELS, GuestRole } from "@/data/videos";
+import { ROLES, ROLE_LABELS, COUNTRY_LABELS, GuestRole } from "@/data/videos";
+import type { Video } from "@/data/videos";
 import { 
   Server, 
   Monitor, 
@@ -37,6 +38,7 @@ const ROLE_ICONS: Record<GuestRole, React.ReactNode> = {
 };
 
 interface VideoFiltersProps {
+  videos?: Video[];
   selectedCountry: string | null;
   selectedRole: GuestRole | null;
   selectedTimeRange: "all" | "3months" | "6months";
@@ -46,6 +48,7 @@ interface VideoFiltersProps {
 }
 
 export function VideoFilters({
+  videos = [],
   selectedCountry,
   selectedRole,
   selectedTimeRange,
