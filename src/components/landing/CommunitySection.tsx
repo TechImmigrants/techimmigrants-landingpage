@@ -1,5 +1,82 @@
-import { MessageCircle, Youtube, Users } from "lucide-react";
+import {
+  Github,
+  Linkedin,
+  MessageCircle,
+  Radio,
+  Twitter,
+  Users,
+  Youtube,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
+
+const platforms = [
+  {
+    name: "کانال تلگرام",
+    description:
+      "آخرین خبرها، منابع مفید و اطلاع‌رسانی مصاحبه‌های جدید را مستقیم در کانال دنبال کنید.",
+    stat: "+۷۱۰۰ مشترک",
+    cta: "دنبال کردن کانال",
+    href: "https://t.me/techimmigrantschannel",
+    icon: Radio,
+    tone: "bg-sky-500/10 text-sky-600",
+    buttonVariant: "default" as const,
+  },
+  {
+    name: "گروه تلگرام",
+    description:
+      "جایی برای پرسش و پاسخ، به اشتراک گذاشتن تجربیات و آشنایی با افراد همفکر.",
+    stat: "+۱۷۰۰۰ عضو",
+    cta: "عضویت در گروه",
+    href: "https://t.me/techimmigrants",
+    icon: MessageCircle,
+    tone: "bg-primary/10 text-primary",
+    buttonVariant: "outline" as const,
+  },
+  {
+    name: "یوتیوب",
+    description:
+      "مصاحبه‌ها، لایوها و گفتگوهای عمیق درباره مهاجرت کاری و مسیر رشد در صنعت تک.",
+    stat: "+۱۹۰ اپیزود",
+    cta: "سابسکرایب",
+    href: "https://youtube.com/@techimmigrants",
+    icon: Youtube,
+    tone: "bg-destructive/10 text-destructive",
+    buttonVariant: "outline" as const,
+  },
+  {
+    name: "لینکدین",
+    description:
+      "برای ارتباط حرفه‌ای، خبرهای جامعه و نوشته‌های مرتبط با مسیر شغلی در تک همراه باشید.",
+    stat: "Follow",
+    cta: "دنبال کردن",
+    href: "https://linkedin.com/in/saharpak",
+    icon: Linkedin,
+    tone: "bg-blue-600/10 text-blue-600",
+    buttonVariant: "outline" as const,
+  },
+  {
+    name: "X / Twitter",
+    description:
+      "نکته‌های کوتاه، به‌روزرسانی‌ها و گفتگوهای روزمره جامعه Tech Immigrants را دنبال کنید.",
+    stat: "Follow",
+    cta: "دنبال کردن",
+    href: "https://x.com/saharlead",
+    icon: Twitter,
+    tone: "bg-foreground/10 text-foreground",
+    buttonVariant: "outline" as const,
+  },
+  {
+    name: "GitHub",
+    description:
+      "پروژه‌های متن‌باز جامعه را ببینید، مشارکت کنید و ایده‌های جدید را با ما بسازید.",
+    stat: "۱۰ مخزن، مشارکت کنید",
+    cta: "مشاهده GitHub",
+    href: "https://github.com/TechImmigrants",
+    icon: Github,
+    tone: "bg-muted text-foreground",
+    buttonVariant: "outline" as const,
+  },
+];
 
 export function CommunitySection() {
   return (
@@ -14,60 +91,46 @@ export function CommunitySection() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-          {/* Telegram Card */}
-          <div className="bg-card rounded-2xl p-8 border border-border shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
-            <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mb-6">
-              <MessageCircle className="h-8 w-8 text-primary" />
-            </div>
-            <h3 className="text-xl font-bold text-foreground mb-3">
-              گروه تلگرام
-            </h3>
-            <p className="text-muted-foreground mb-6">
-              جایی برای پرسش و پاسخ، به اشتراک گذاشتن تجربیات و آشنایی با افراد همفکر. هر هفته مطالب مفید و آپدیت درباره مصاحبه‌های جدید منتشر می‌شه.
-            </p>
-            <div className="flex items-center gap-2 text-sm text-muted-foreground mb-6">
-              <Users className="h-4 w-4" />
-              <span>+۲۰۰۰ عضو فعال</span>
-            </div>
-            <Button size="lg" className="w-full gap-2 transition-transform hover:scale-[1.02]" asChild>
-              <a
-                href="https://t.me/techimmigrants"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <MessageCircle className="h-5 w-5" />
-                عضویت در گروه تلگرام
-              </a>
-            </Button>
-          </div>
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto">
+          {platforms.map((platform) => {
+            const Icon = platform.icon;
 
-          {/* YouTube Card */}
-          <div className="bg-card rounded-2xl p-8 border border-border shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
-            <div className="w-16 h-16 bg-destructive/10 rounded-2xl flex items-center justify-center mb-6">
-              <Youtube className="h-8 w-8 text-destructive" />
-            </div>
-            <h3 className="text-xl font-bold text-foreground mb-3">
-              کانال یوتیوب
-            </h3>
-            <p className="text-muted-foreground mb-6">
-              تمام مصاحبه‌ها در کانال یوتیوب ما منتشر می‌شن. سابسکرایب کنید تا از مصاحبه‌های جدید و لایوها باخبر بشید.
-            </p>
-            <div className="flex items-center gap-2 text-sm text-muted-foreground mb-6">
-              <Youtube className="h-4 w-4" />
-              <span>+۵۰ ویدیو منتشر شده</span>
-            </div>
-            <Button size="lg" variant="outline" className="w-full gap-2 transition-transform hover:scale-[1.02]" asChild>
-              <a
-                href="https://youtube.com/@techimmigrants"
-                target="_blank"
-                rel="noopener noreferrer"
+            return (
+              <div
+                key={platform.name}
+                className="bg-card rounded-2xl p-6 border border-border shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col"
               >
-                <Youtube className="h-5 w-5" />
-                مشاهده کانال یوتیوب
-              </a>
-            </Button>
-          </div>
+                <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-5 ${platform.tone}`}>
+                  <Icon className="h-7 w-7" />
+                </div>
+                <h3 className="text-xl font-bold text-foreground mb-3">
+                  {platform.name}
+                </h3>
+                <p className="text-muted-foreground mb-5 flex-1">
+                  {platform.description}
+                </p>
+                <div className="flex items-center gap-2 text-sm text-muted-foreground mb-5">
+                  <Users className="h-4 w-4" />
+                  <span>{platform.stat}</span>
+                </div>
+                <Button
+                  size="lg"
+                  variant={platform.buttonVariant}
+                  className="w-full gap-2 transition-transform hover:scale-[1.02]"
+                  asChild
+                >
+                  <a
+                    href={platform.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Icon className="h-5 w-5" />
+                    {platform.cta}
+                  </a>
+                </Button>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>
