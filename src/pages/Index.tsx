@@ -9,6 +9,7 @@ import { LiveEventsSection } from "@/components/landing/LiveEventsSection";
 import { FeedbackSection } from "@/components/landing/FeedbackSection";
 import { DonationSection } from "@/components/landing/DonationSection";
 import { Footer } from "@/components/landing/Footer";
+import GithubSection from "@/components/landing/GithubSection";
 
 const Index = () => {
   return (
@@ -20,6 +21,7 @@ const Index = () => {
         <MentorsSection />
         <TestimonialsSection />
         <CommunitySection />
+        <GithubSection/>
         <ResourcesSection />
         <LiveEventsSection />
         <FeedbackSection />
