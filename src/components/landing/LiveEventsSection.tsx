@@ -31,7 +31,7 @@ function generateGoogleCalendarUrl(event: typeof events[0]) {
     action: "TEMPLATE",
     text: event.title,
     dates: `${formatDate(startDate)}/${formatDate(endDate)}`,
-    details: `${event.description}\n\nمهمان: ${event.guestName}${event.youtubeOrEventUrl ? `\n\nلینک لایو: ${event.youtubeOrEventUrl}` : ""}`,
+    details: `${event.description}${event.guestName ? `\n\nمهمان: ${event.guestName}` : ""}${event.youtubeOrEventUrl ? `\n\nلینک لایو: ${event.youtubeOrEventUrl}` : ""}`,
     location: event.platform,
   });
 
@@ -54,7 +54,7 @@ DTSTAMP:${formatDate(new Date())}
 DTSTART:${formatDate(startDate)}
 DTEND:${formatDate(endDate)}
 SUMMARY:${event.title}
-DESCRIPTION:${event.description}\\n\\nمهمان: ${event.guestName}${event.youtubeOrEventUrl ? `\\n\\nلینک لایو: ${event.youtubeOrEventUrl}` : ""}
+DESCRIPTION:${event.description}${event.guestName ? `\\n\\nمهمان: ${event.guestName}` : ""}${event.youtubeOrEventUrl ? `\\n\\nلینک لایو: ${event.youtubeOrEventUrl}` : ""}
 LOCATION:${event.platform}
 END:VEVENT
 END:VCALENDAR`;
@@ -141,30 +141,52 @@ export function LiveEventsSection() {
                   key={event.id}
                   className="bg-background rounded-xl border border-border overflow-hidden hover:shadow-lg transition-shadow duration-300"
                 >
+                  {event.thumbnailUrl && (
+                    <a
+                      href={event.youtubeOrEventUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block"
+                    >
+                      <img
+                        src={event.thumbnailUrl}
+                        alt={event.title}
+                        className="w-full aspect-video object-cover"
+                      />
+                    </a>
+                  )}
                   <div className="p-6">
                     <div className="flex items-start justify-between mb-4">
                       <div>
                         <h3 className="text-lg font-bold text-foreground mb-1">
                           {event.title}
                         </h3>
-                        <p className="text-muted-foreground">{event.guestName}</p>
+                        {event.guestName && (
+                          <p className="text-muted-foreground">{event.guestName}</p>
+                        )}
                       </div>
                       <span className="bg-primary/10 text-primary text-xs px-2 py-1 rounded-full">
                         {event.platform}
                       </span>
                     </div>
 
+                    {(event.guestName || event.country) && (
                     <div className="flex flex-wrap gap-2 mb-4">
+                      {event.guestRole && ROLE_LABELS[event.guestRole] && (
                       <span className="bg-primary/10 text-primary text-xs px-2 py-1 rounded-full">
                         {ROLE_LABELS[event.guestRole]}
                       </span>
+                      )}
+                      {event.country && (
                       <span className="bg-secondary/10 text-secondary-foreground text-xs px-2 py-1 rounded-full flex items-center gap-1">
                         <MapPin className="h-3 w-3" />
                         {COUNTRY_LABELS[event.country] || event.country}
                       </span>
+                      )}
                     </div>
+                    )}
 
-                    <p className="text-sm text-muted-foreground mb-4">
+                    <p className="text-sm text-muted-foreground mb-4 line-clamp-3">
                       {event.description}
                     </p>
 

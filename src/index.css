@@ -170,3 +170,40 @@ All colors MUST be HSL.
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
+
+/* Blog prose overrides for RTL */
+.prose {
+  direction: rtl;
+  text-align: right;
+}
+
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4 {
+  margin-top: 1.8em;
+  margin-bottom: 0.6em;
+}
+
+.prose h2 {
+  padding-bottom: 0.3em;
+  border-bottom: 1px solid hsl(var(--border));
+}
+
+.prose ul,
+.prose ol {
+  padding-right: 1.5em;
+  padding-left: 0;
+}
+
+.prose blockquote {
+  border-right: 4px solid hsl(var(--primary));
+  border-left: none;
+  padding-right: 1em;
+  padding-left: 0;
+}
+
+.prose a {
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
