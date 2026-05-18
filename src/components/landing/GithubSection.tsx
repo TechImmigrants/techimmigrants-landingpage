@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react'
 import { Star, GitFork, Handshake, BookOpen, RefreshCw } from 'lucide-react'
 
@@ -10,6 +11,7 @@ type GitHubRepo = {
   stargazers_count: number;
   forks_count: number;
 }
+
 const FALLBACK_REPOS: GitHubRepo[] = [
   {
     id: 1,
@@ -41,9 +43,9 @@ const FALLBACK_REPOS: GitHubRepo[] = [
 ];
 
 const CACHE_KEY = 'github_repos_cache';
-const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
+const CACHE_TTL = 5 * 60 * 1000;
 const MAX_RETRIES = 3;
-const RETRY_DELAY = 1000; // 1 second
+const RETRY_DELAY = 1000; 
 
 const GithubSection = () => {
   const [repos, setRepos] = useState<GitHubRepo[]>([]);
@@ -53,72 +55,87 @@ const GithubSection = () => {
 
   const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
-  const fetchData = async (retriesLeft = MAX_RETRIES) => {
-    setLoading(true);
-    setError(null);
+  useEffect(() => {
+    const controller = new AbortController();
     
-    try {
-      const response = await fetch("https://api.github.com/orgs/TechImmigrants/repos?per_page=100&sort=stars&direction=desc");
+    const fetchData = async (retriesLeft = MAX_RETRIES) => {
+      setLoading(true);
+      setError(null);
       
-      if (!response.ok) {
-        throw new Error(`GitHub API error: ${response.status}`);
+      try {
+        // Fix #1: Remove sort=stars from API call (not supported)
+        const response = await fetch(
+          "https://api.github.com/orgs/TechImmigrants/repos?per_page=100",
+          { signal: controller.signal }
+        );
+        
+        if (!response.ok) {
+          throw new Error(`GitHub API error: ${response.status}`);
+        }
+        
+        const data: GitHubRepo[] = await response.json();
+        const top4Repos = data
+          .sort((a, b) => b.stargazers_count - a.stargazers_count)
+          .slice(0, 4);
+        
+        setRepos(top4Repos);
+
+        localStorage.setItem(CACHE_KEY, JSON.stringify({
+          data: top4Repos,
+          timestamp: Date.now()
+        }));
+        
+        setLoading(false);
+        setRetryCount(0);
+        
+      } catch (err) {
+        if (err instanceof Error && err.name === 'AbortError') {
+          return;
+        }
+        
+        if (retriesLeft > 0) {
+          const delay = RETRY_DELAY * (MAX_RETRIES - retriesLeft + 1);
+          setRetryCount(prev => prev + 1);
+          await sleep(delay);
+          return fetchData(retriesLeft - 1);
+        }
+        const cached = localStorage.getItem(CACHE_KEY);
+        if (cached) {
+          try {
+            const { data } = JSON.parse(cached);
+            if (data && data.length > 0) {
+              setRepos(data);
+              setError(null);
+              setLoading(false);
+              return;
+            }
+          } catch (parseError) {
+            localStorage.removeItem(CACHE_KEY);
+          }
+        }
+        setRepos(FALLBACK_REPOS);
+        setError(err instanceof Error ? err.message : 'Failed to fetch repos');
+        setLoading(false);
       }
-      
-      const data: GitHubRepo[] = await response.json();
-      const top4Repos = data.slice(0, 4);
-      setRepos(top4Repos);
-      
-      // Cache the data
-      localStorage.setItem(CACHE_KEY, JSON.stringify({
-        data: top4Repos,
-        timestamp: Date.now()
-      }));
-      
-      setLoading(false);
-      setRetryCount(0);
-      
-    } catch (err) {
-      if (retriesLeft > 0) {
-        // Retry with exponential backoff
-        const delay = RETRY_DELAY * (MAX_RETRIES - retriesLeft + 1);
-        setRetryCount(prev => prev + 1);
-        await sleep(delay);
-        return fetchData(retriesLeft - 1);
-      }
-      
-      // Try to use cached data even if expired
-      const cached = localStorage.getItem(CACHE_KEY);
-      if (cached) {
-        const { data } = JSON.parse(cached);
-        if (data && data.length > 0) {
+    };
+
+    const cached = localStorage.getItem(CACHE_KEY);
+    if (cached) {
+      try {
+        const { data, timestamp } = JSON.parse(cached);
+        if (Date.now() - timestamp < CACHE_TTL && data.length > 0) {
           setRepos(data);
-          setError(null);
           setLoading(false);
           return;
         }
-      }
-      
-      // Use static fallback as last resort
-      setRepos(FALLBACK_REPOS);
-      setError(err instanceof Error ? err.message : 'Failed to fetch repos');
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    // Check cache first
-    const cached = localStorage.getItem(CACHE_KEY);
-    if (cached) {
-      const { data, timestamp } = JSON.parse(cached);
-      if (Date.now() - timestamp < CACHE_TTL && data.length > 0) {
-        setRepos(data);
-        setLoading(false);
-        return;
+      } catch (parseError) {
+        localStorage.removeItem(CACHE_KEY);
       }
     }
     
     fetchData();
-  }, []);
+    return () => controller.abort();
+  }, []); 
 
   const getLanguageColor = (language: string | null) => {
     const colors: Record<string, string> = {
@@ -142,6 +159,23 @@ const GithubSection = () => {
               {retryCount > 0 ? `Retrying... (${retryCount}/${MAX_RETRIES})` : 'Loading repositories...'}
             </p>
           </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (error && repos.length === 0) {
+    return (
+      <section className="py-20 px-4 bg-background">
+        <div className="container mx-auto max-w-6xl text-center">
+          <h2 className="text-3xl md:text-5xl font-bold mb-4 text-foreground">Build with us on GitHub</h2>
+          <p className="text-red-500 mb-4">Error: {error}</p>
+          <button 
+            onClick={() => window.location.reload()} 
+            className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2 rounded-md"
+          >
+            <RefreshCw size={16} /> Retry
+          </button>
         </div>
       </section>
     );
@@ -243,4 +277,3 @@ const GithubSection = () => {
 }
 
 export default GithubSection
-
