@@ -1,9 +1,12 @@
 name: Fetch upcoming YouTube lives
 
 on:
-  schedule:
-    # Every 6 hours
-    - cron: "0 */6 * * *"
+  # Scheduled runs are disabled because the YOUTUBE_API_KEY secret is not configured,
+  # which caused every scheduled run to fail. Re-enable by uncommenting the schedule
+  # below once the secret is set in the repository settings.
+  # schedule:
+  #   # Every 6 hours
+  #   - cron: "0 */6 * * *"
   workflow_dispatch:
 
 permissions:

@@ -1,15 +1,21 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-const navItems = [
-  { label: "مصاحبه‌ها", href: "#interviews" },
-  { label: "منتورها", href: "#mentors" },
-  { label: "نظرات", href: "#testimonials" },
-  { label: "جامعه", href: "#community" },
-  { label: "منابع", href: "#resources" },
-  { label: "لایوها", href: "#lives" },
-  { label: "حمایت", href: "#donation" },
+type NavItem =
+  | { label: string; href: string; type: "anchor" }
+  | { label: string; to: string; type: "link" };
+
+const navItems: NavItem[] = [
+  { label: "مصاحبه‌ها", href: "#interviews", type: "anchor" },
+  { label: "منتورها", href: "#mentors", type: "anchor" },
+  { label: "بلاگ", to: "/blog", type: "link" },
+  { label: "نظرات", href: "#testimonials", type: "anchor" },
+  { label: "جامعه", href: "#community", type: "anchor" },
+  { label: "منابع", href: "#resources", type: "anchor" },
+  { label: "لایوها", href: "#lives", type: "anchor" },
+  { label: "حمایت", href: "#donation", type: "anchor" },
 ];
 
 export function Navbar() {
@@ -34,15 +40,25 @@ export function Navbar() {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-6">
-            {navItems.map((item) => (
-              <button
-                key={item.href}
-                onClick={() => scrollToSection(item.href)}
-                className="text-foreground/80 hover:text-primary transition-colors text-sm font-medium relative after:absolute after:bottom-0 after:right-0 after:w-0 after:h-0.5 after:bg-primary after:transition-all hover:after:w-full"
-              >
-                {item.label}
-              </button>
-            ))}
+            {navItems.map((item) =>
+              item.type === "link" ? (
+                <Link
+                  key={item.to}
+                  to={item.to}
+                  className="text-foreground/80 hover:text-primary transition-colors text-sm font-medium relative after:absolute after:bottom-0 after:right-0 after:w-0 after:h-0.5 after:bg-primary after:transition-all hover:after:w-full"
+                >
+                  {item.label}
+                </Link>
+              ) : (
+                <button
+                  key={item.href}
+                  onClick={() => scrollToSection(item.href)}
+                  className="text-foreground/80 hover:text-primary transition-colors text-sm font-medium relative after:absolute after:bottom-0 after:right-0 after:w-0 after:h-0.5 after:bg-primary after:transition-all hover:after:w-full"
+                >
+                  {item.label}
+                </button>
+              )
+            )}
             <Button
               size="sm"
               onClick={() => scrollToSection("#community")}
@@ -66,16 +82,28 @@ export function Navbar() {
         {isOpen && (
           <div className="md:hidden py-4 border-t border-border animate-fade-in">
             <div className="flex flex-col gap-3">
-              {navItems.map((item, index) => (
-                <button
-                  key={item.href}
-                  onClick={() => scrollToSection(item.href)}
-                  className="text-foreground/80 hover:text-primary transition-colors text-sm font-medium py-2 text-right animate-slide-in-right opacity-0"
-                  style={{ animationDelay: `${index * 50}ms` }}
-                >
-                  {item.label}
-                </button>
-              ))}
+              {navItems.map((item, index) =>
+                item.type === "link" ? (
+                  <Link
+                    key={item.to}
+                    to={item.to}
+                    onClick={() => setIsOpen(false)}
+                    className="text-foreground/80 hover:text-primary transition-colors text-sm font-medium py-2 text-right animate-slide-in-right opacity-0"
+                    style={{ animationDelay: `${index * 50}ms` }}
+                  >
+                    {item.label}
+                  </Link>
+                ) : (
+                  <button
+                    key={item.href}
+                    onClick={() => scrollToSection(item.href)}
+                    className="text-foreground/80 hover:text-primary transition-colors text-sm font-medium py-2 text-right animate-slide-in-right opacity-0"
+                    style={{ animationDelay: `${index * 50}ms` }}
+                  >
+                    {item.label}
+                  </button>
+                )
+              )}
               <Button
                 size="sm"
                 className="mt-2 animate-slide-in-right opacity-0"
