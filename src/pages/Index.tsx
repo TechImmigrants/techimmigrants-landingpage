@@ -1,31 +1,50 @@
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import { scrollToAnchor } from "@/lib/nav";
 import { Navbar } from "@/components/landing/Navbar";
 import { Hero } from "@/components/landing/Hero";
-import { InterviewsSection } from "@/components/landing/InterviewsSection";
-import { MentorsSection } from "@/components/landing/MentorsSection";
-import { TestimonialsSection } from "@/components/landing/TestimonialsSection";
-import { CommunitySection } from "@/components/landing/CommunitySection";
-import { ResourcesSection } from "@/components/landing/ResourcesSection";
-import { LiveEventsSection } from "@/components/landing/LiveEventsSection";
-import { FeedbackSection } from "@/components/landing/FeedbackSection";
-import { DonationSection } from "@/components/landing/DonationSection";
+import { TrustStats } from "@/components/landing/TrustStats";
+import { Mission } from "@/components/landing/Mission";
+import { Journey } from "@/components/landing/Journey";
+import { CommunityIntelligence } from "@/components/landing/CommunityIntelligence";
+import { Programs } from "@/components/landing/Programs";
+import { ProductBuilders } from "@/components/landing/ProductBuilders";
+import { ResourcesHub } from "@/components/landing/ResourcesHub";
+import { Partnership } from "@/components/landing/Partnership";
+import { SupportMission } from "@/components/landing/SupportMission";
+import { Founder } from "@/components/landing/Founder";
+import { Faq } from "@/components/landing/Faq";
+import { Contact } from "@/components/landing/Contact";
 import { Footer } from "@/components/landing/Footer";
-import GithubSection from "@/components/landing/GithubSection";
 
 const Index = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.hash) {
+      // Wait for sections to render before scrolling to the target anchor.
+      const id = setTimeout(() => scrollToAnchor(location.hash), 100);
+      return () => clearTimeout(id);
+    }
+  }, [location.hash]);
+
   return (
-    <div className="min-h-screen bg-background" dir="rtl">
+    <div className="min-h-screen bg-background">
       <Navbar />
       <main>
         <Hero />
-        <InterviewsSection />
-        <MentorsSection />
-        <TestimonialsSection />
-        <CommunitySection />
-        <GithubSection/>
-        <ResourcesSection />
-        <LiveEventsSection />
-        <FeedbackSection />
-        <DonationSection />
+        <TrustStats />
+        <Mission />
+        <Journey />
+        <CommunityIntelligence />
+        <Programs />
+        <ProductBuilders />
+        <ResourcesHub />
+        <Partnership />
+        <SupportMission />
+        <Founder />
+        <Faq />
+        <Contact />
       </main>
       <Footer />
     </div>

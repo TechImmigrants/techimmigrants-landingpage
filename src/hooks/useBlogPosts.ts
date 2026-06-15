@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { supabase } from "@/lib/supabase";
+import { supabase, isSupabaseConfigured } from "@/lib/supabase";
 import type { BlogPost } from "@/data/blog";
 
 export function useBlogPosts(tag?: string | null) {
@@ -8,9 +8,15 @@ export function useBlogPosts(tag?: string | null) {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    if (!isSupabaseConfigured || !supabase) {
+      setPosts([]);
+      setLoading(false);
+      return;
+    }
+
     async function fetchPosts() {
       try {
-        let query = supabase
+        let query = supabase!
           .from("blog_posts")
           .select("*")
           .eq("published", true)
@@ -50,9 +56,15 @@ export function useBlogPost(slug: string | undefined) {
       return;
     }
 
+    if (!isSupabaseConfigured || !supabase) {
+      setError("مقاله یافت نشد");
+      setLoading(false);
+      return;
+    }
+
     async function fetchPost() {
       try {
-        const { data, error: queryError } = await supabase
+        const { data, error: queryError } = await supabase!
           .from("blog_posts")
           .select("*")
           .eq("slug", slug)

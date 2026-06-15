@@ -11,7 +11,7 @@ export function renderMarkdown(md: string): string {
   let inList: "ul" | "ol" | null = null;
 
   for (let i = 0; i < lines.length; i++) {
-    let line = lines[i];
+    const line = lines[i];
 
     // Fenced code blocks
     if (line.startsWith("```")) {
