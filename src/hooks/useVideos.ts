@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
-import { supabase } from '@/lib/supabase'
+import { supabase, isSupabaseConfigured } from '@/lib/supabase'
+import { sampleVideos } from '@/data/videos'
 import type { Video, GuestRole } from '@/data/videos'
 
 type SupabaseTag = {
@@ -53,16 +54,26 @@ export function useVideos() {
   const [videos, setVideos] = useState<Video[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [usingFallback, setUsingFallback] = useState(false)
 
   useEffect(() => {
+    // Static mode: no Supabase credentials. Use sample data so the section
+    // is never blank, and never attempt a network call that would fail.
+    if (!isSupabaseConfigured || !supabase) {
+      setVideos(sampleVideos)
+      setUsingFallback(true)
+      setLoading(false)
+      return
+    }
+
     async function fetchVideos() {
       try {
         const [videosResult, tagsResult] = await Promise.all([
-          supabase
+          supabase!
             .from('youtube_videos')
             .select('id,video_id,title,published_at,country_tag_id,position_tag_ids,thumbnail_standard,thumbnail_maxres')
             .order('published_at', { ascending: false }),
-          supabase
+          supabase!
             .from('youtube_tags')
             .select('id,label,slug,tag_type')
             .order('label', { ascending: true }),
@@ -98,8 +109,17 @@ export function useVideos() {
           }
         })
 
-        setVideos(mapped)
+        if (mapped.length === 0) {
+          // Connected but empty: still show sample content rather than nothing.
+          setVideos(sampleVideos)
+          setUsingFallback(true)
+        } else {
+          setVideos(mapped)
+        }
       } catch (err) {
+        // Network/query failure: degrade gracefully to sample content.
+        setVideos(sampleVideos)
+        setUsingFallback(true)
         setError(err instanceof Error ? err.message : 'Failed to load videos')
       } finally {
         setLoading(false)
@@ -109,5 +129,5 @@ export function useVideos() {
     fetchVideos()
   }, [])
 
-  return { videos, loading, error }
+  return { videos, loading, error, usingFallback }
 }

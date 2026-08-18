@@ -6,9 +6,19 @@ interface VideoCardProps {
   video: Video;
 }
 
+const PLACEHOLDER_THUMB = `${import.meta.env.BASE_URL}placeholder.svg`;
+
 export function VideoCard({ video }: VideoCardProps) {
-  const thumbnailUrl = `https://img.youtube.com/vi/${video.youtubeId}/maxresdefault.jpg`;
-  const youtubeUrl = `https://www.youtube.com/watch?v=${video.youtubeId}`;
+  const thumbnailUrl = video.thumbnailUrl
+    ? video.thumbnailUrl
+    : video.youtubeId
+      ? `https://img.youtube.com/vi/${video.youtubeId}/maxresdefault.jpg`
+      : PLACEHOLDER_THUMB;
+  const youtubeUrl = video.watchUrl
+    ? video.watchUrl
+    : video.youtubeId
+      ? `https://www.youtube.com/watch?v=${video.youtubeId}`
+      : "https://youtube.com/@techimmigrants";
 
   // Format date in Persian-friendly way
   const formatDate = (dateStr: string) => {
@@ -28,8 +38,16 @@ export function VideoCard({ video }: VideoCardProps) {
           src={thumbnailUrl}
           alt={video.title}
           className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+          loading="lazy"
           onError={(e) => {
-            e.currentTarget.src = `https://img.youtube.com/vi/${video.youtubeId}/hqdefault.jpg`;
+            const fallback = video.youtubeId
+              ? `https://img.youtube.com/vi/${video.youtubeId}/hqdefault.jpg`
+              : PLACEHOLDER_THUMB;
+            if (e.currentTarget.src !== fallback) {
+              e.currentTarget.src = fallback;
+            } else {
+              e.currentTarget.src = PLACEHOLDER_THUMB;
+            }
           }}
         />
         {video.featured && (
