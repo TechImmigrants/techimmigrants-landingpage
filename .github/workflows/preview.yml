@@ -1,0 +1,70 @@
+name: Preview
+
+on:
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  preview:
+    name: 🌐 Deploy preview
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v7
+
+      - name: 🔧 Setup project
+        uses: ./.github/actions/setup
+
+      - name: 📦 Install Wrangler
+        # See deploy-production.yml for the version pin rationale.
+        run: npm install --no-save wrangler@4.126.0
+
+      - name: 🏗️ Build
+        run: npm run build
+
+      # Bundle the SPA middleware function so Cloudflare Pages can apply
+      # it without a separate Cloudflare Git-integration build step.
+      - name: 🧱 Bundle Pages Function
+        run: |
+          # wrangler's --output-routes-path must write into an existing
+          # directory; create it before invoking the build.
+          mkdir -p functions-built
+          npx wrangler pages functions build functions \
+            --outdir=functions-built \
+            --output-routes-path=functions-built/_routes.json \
+            --build-output-directory=dist
+
+      - name: 📦 Stage Worker bundle
+        run: |
+          mkdir -p dist/_worker.js
+          cp functions-built/index.js dist/_worker.js/index.js
+          cp functions-built/_routes.json dist/_worker.js/_routes.json
+
+      - name: 🚀 Deploy preview to Cloudflare Pages
+        id: deploy
+        uses: cloudflare/wrangler-action@v4
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          # A non-`main` branch name produces a Pages preview deployment.
+          # One preview branch per PR keeps URLs stable across pushes.
+          command: pages deploy dist --project-name=techimmigrants-landingpage --branch=pr-${{ github.event.pull_request.number }}
+          wranglerVersion: 4.126.0
+
+      - name: 💬 Comment preview URL
+        if: steps.deploy.outputs.deployment-url != ''
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: cloudflare-preview
+          message: |
+            🌐 Cloudflare Pages preview is ready: ${{ steps.deploy.outputs.deployment-url }}
