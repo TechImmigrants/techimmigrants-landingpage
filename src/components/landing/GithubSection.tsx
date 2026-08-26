@@ -169,7 +169,7 @@ const GithubSection = () => {
       <section className="py-20 px-4 bg-background">
         <div className="container mx-auto max-w-6xl text-center">
           <h2 className="text-3xl md:text-5xl font-bold mb-4 text-foreground">Build with us on GitHub</h2>
-          <p className="text-red-500 mb-4">Error: {error}</p>
+          <p className="text-destructive mb-4">Error: {error}</p>
           <button 
             onClick={() => window.location.reload()} 
             className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2 rounded-md"

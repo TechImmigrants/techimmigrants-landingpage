@@ -8,7 +8,7 @@
   background: var(--surface-glass-strong);
   box-shadow:
     var(--elevation-floating),
-    inset 0 1px 0 rgb(var(--light-rgb) / 0.9);
+    inset 0 1px 0 var(--rim-highlight);
   -webkit-backdrop-filter: blur(18px) saturate(140%);
   backdrop-filter: blur(18px) saturate(140%);
 }

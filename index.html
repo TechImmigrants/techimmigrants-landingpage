@@ -3,7 +3,28 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#0b2942" />
+    <script>
+      // Applies the stored theme before first paint so dark-mode visitors never see a
+      // light flash. next-themes only sets the class in an effect, which lands after
+      // the first paint in this client-rendered app; it reads/writes the same
+      // localStorage key ("theme"), so the two stay in sync. Keep this identical in
+      // index.html and fa/index.html (tests/theme-preload.test.ts enforces that).
+      (function () {
+        try {
+          var stored = localStorage.getItem("theme");
+          var dark =
+            stored === "dark" ||
+            ((!stored || stored === "system") &&
+              matchMedia("(prefers-color-scheme: dark)").matches);
+          document.documentElement.classList.toggle("dark", dark);
+          document.documentElement.style.colorScheme = dark ? "dark" : "light";
+        } catch (error) {
+          /* private mode or storage disabled: fall back to the light default */
+        }
+      })();
+    </script>
+    <meta name="theme-color" content="#0b2942" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#060e17" media="(prefers-color-scheme: dark)" />
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" href="/favicon.png" type="image/png" sizes="64x64" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />

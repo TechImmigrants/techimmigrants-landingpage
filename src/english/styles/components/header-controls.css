@@ -1,3 +1,30 @@
+.ti-theme-toggle {
+  display: grid;
+  width: 2.6rem;
+  height: 2.6rem;
+  flex: none;
+  place-items: center;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  background: var(--surface-raised);
+  color: var(--text-secondary);
+  transition:
+    transform var(--motion-hover),
+    border-color var(--motion-hover),
+    color var(--motion-hover);
+}
+
+.ti-theme-toggle:hover {
+  transform: translateY(-1px);
+  border-color: var(--border-strong);
+  color: var(--text-primary);
+}
+
+.ti-theme-toggle svg {
+  width: 1.05rem;
+  height: 1.05rem;
+}
+
 .ti-language {
   display: inline-flex;
   min-height: 2.6rem;
@@ -43,12 +70,38 @@
     min-height: 3.7rem;
     padding: 0.5rem 0.55rem 0.5rem 0.75rem;
     border-radius: 1.1rem;
-    grid-template-columns: 1fr auto;
+    grid-template-columns: minmax(0, 1fr) auto;
   }
 
   .ti-header .ti-brand__copy small,
   .ti-header .ti-language small,
   .ti-header .ti-language svg {
+    display: none;
+  }
+
+  /* The actions row is three controls wide here, so the wordmark yields first
+     rather than pushing the language switch and menu button off the header. */
+  .ti-header .ti-brand {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .ti-header .ti-brand__copy {
+    min-width: 0;
+  }
+
+  .ti-header .ti-brand__copy strong {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+/* Below this the wordmark cannot fit at all; the mark alone still identifies the site
+   and the <a> keeps its aria-label. */
+@media (max-width: 430px) {
+  .ti-header .ti-brand__copy {
     display: none;
   }
 }

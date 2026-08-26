@@ -8,15 +8,15 @@
   overflow: hidden;
   margin-top: clamp(1.25rem, 2.4vw, 2rem);
   padding: clamp(2rem, 3.6vw, 3.5rem);
-  border: 1px solid rgb(var(--light-rgb) / 0.85);
+  border: 1px solid var(--hero-border);
   border-radius: var(--radius-2xl);
   background:
     radial-gradient(circle at 4% -6%, rgb(var(--sky-rgb) / 0.2), transparent 30rem),
     radial-gradient(circle at 96% 104%, rgb(var(--warm-rgb) / 0.13), transparent 26rem),
-    linear-gradient(140deg, rgb(var(--light-rgb) / 0.97), rgb(var(--light-rgb) / 0.7));
+    linear-gradient(140deg, var(--hero-fill-from), var(--hero-fill-to));
   box-shadow:
     var(--elevation-overlay),
-    inset 0 1px 0 rgb(var(--light-rgb) / 0.9);
+    inset 0 1px 0 var(--rim-highlight);
   isolation: isolate;
 }
 

@@ -33,6 +33,27 @@
 
   --rim-light: inset 0 1px 0 rgb(var(--light-rgb) / 0.7);
 
+  /* Values that used to be inlined on the assumption that the page is light.
+     Named here so tokens/dark.css can flip them without touching call sites. */
+  --rim-highlight: rgb(var(--light-rgb) / 0.9);
+  --rim-highlight-soft: rgb(var(--light-rgb) / 0.75);
+  --surface-nav: rgb(var(--light-rgb) / 0.5);
+  --surface-nav-hover: var(--neutral-0);
+  --surface-hover-veil: rgb(var(--light-rgb) / 0.06);
+  --surface-slab: var(--navy-800);
+  --surface-slab-topline: var(--blue-800);
+  --hero-border: rgb(var(--light-rgb) / 0.85);
+  --hero-fill-from: rgb(var(--light-rgb) / 0.97);
+  --hero-fill-to: rgb(var(--light-rgb) / 0.7);
+  --selection-bg: var(--surface-accent-soft);
+  --selection-text: var(--navy-800);
+  --skip-surface: var(--navy-800);
+  --skip-text: var(--neutral-0);
+  --button-solid-from: var(--navy-700);
+  --button-solid-to: var(--navy-900);
+  --button-solid-text: var(--neutral-0);
+  --grain-opacity: 0.03;
+
   --motion-hover: var(--dur-base) var(--ease-out);
   --motion-reveal: var(--dur-slow) var(--ease-entrance);
 }

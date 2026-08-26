@@ -1,0 +1,94 @@
+/*
+ * Dark theme for the English design system.
+ *
+ * `.dark` lands on <html> (next-themes, plus the pre-paint script in index.html).
+ * `.dark .ti` outranks the `.ti` declarations in semantic.css, so every token below
+ * is a straight override — no call site in components/ or sections/ changes.
+ *
+ * The canvas sits deliberately deeper than --navy-800, because the inverse slabs
+ * (Impact, Insight, Invitation, Footer) still have to read as raised surfaces
+ * against it rather than melting into the page.
+ */
+
+:root.dark {
+  --ti-page-canvas: #050d15;
+}
+
+.dark .ti {
+  --surface-canvas: var(--abyss-900);
+  --surface-raised: var(--abyss-850);
+  --surface-sunken: var(--abyss-950);
+  --surface-glass: rgb(14 27 40 / 0.72);
+  --surface-glass-strong: rgb(14 27 40 / 0.9);
+  --surface-accent-soft: rgb(var(--sky-rgb) / 0.14);
+  --surface-warm-soft: rgb(var(--warm-rgb) / 0.14);
+
+  --text-primary: #e7eff7;
+  --text-secondary: rgb(var(--light-rgb) / 0.74);
+  --text-muted: rgb(var(--light-rgb) / 0.56);
+  --text-accent: var(--blue-300);
+  --text-warm: var(--amber-300);
+  --text-on-accent: var(--navy-900);
+
+  --border-subtle: rgb(var(--light-rgb) / 0.1);
+  --border-strong: rgb(var(--light-rgb) / 0.22);
+  --border-glass: rgb(var(--light-rgb) / 0.12);
+  --border-focus: var(--blue-300);
+
+  --action-primary: var(--blue-400);
+  --action-primary-deep: var(--blue-500);
+  --action-neutral: var(--neutral-0);
+  --action-warm: var(--amber-400);
+  --action-live: var(--green-400);
+
+  /* Shadows read as depth on a dark canvas only when they are near-black. */
+  --elevation-flat: 0 4px 14px rgb(var(--shade-rgb) / 0.3);
+  --elevation-raised: 0 12px 34px rgb(var(--shade-rgb) / 0.42);
+  --elevation-floating: 0 20px 48px rgb(var(--shade-rgb) / 0.5);
+  --elevation-overlay: 0 30px 80px rgb(var(--shade-rgb) / 0.6);
+  --elevation-accent: 0 14px 30px rgb(var(--shade-rgb) / 0.5);
+
+  --rim-light: inset 0 1px 0 rgb(var(--light-rgb) / 0.06);
+
+  /* Counterparts to the light-page values named in semantic.css. */
+  --rim-highlight: rgb(var(--light-rgb) / 0.07);
+  --rim-highlight-soft: rgb(var(--light-rgb) / 0.05);
+  --surface-nav: rgb(var(--light-rgb) / 0.04);
+  --surface-nav-hover: rgb(var(--light-rgb) / 0.1);
+  --surface-hover-veil: rgb(var(--light-rgb) / 0.06);
+  --surface-slab: var(--abyss-800);
+  --surface-slab-topline: var(--abyss-700);
+  --hero-border: rgb(var(--light-rgb) / 0.09);
+  --hero-fill-from: rgb(20 37 52 / 0.95);
+  --hero-fill-to: rgb(14 27 40 / 0.75);
+  --selection-bg: rgb(var(--sky-rgb) / 0.32);
+  --selection-text: var(--neutral-0);
+  --skip-surface: var(--blue-400);
+  --skip-text: var(--navy-900);
+  --grain-opacity: 0.045;
+
+  /* The light page pairs a vivid blue button with a near-black one; dark inverts
+     the second half of that pair rather than hiding it against the canvas. */
+  --button-solid-from: #eef4fa;
+  --button-solid-to: #cfdfec;
+  --button-solid-text: var(--navy-900);
+
+  /* Mirrors the brands.css inverse rule: these two brand tints are near-black. */
+  --brand-x: 219 232 243;
+  --brand-github: 208 224 238;
+}
+
+/*
+ * The inverse slabs keep their light-on-dark text, but on a dark page they have to
+ * sit *above* the canvas instead of matching it.
+ */
+.dark .ti-surface--inverse {
+  --surface-canvas: var(--abyss-800);
+  --surface-raised: rgb(var(--light-rgb) / 0.055);
+  --surface-sunken: var(--abyss-900);
+
+  --elevation-flat: 0 4px 14px rgb(var(--shade-rgb) / 0.3);
+  --elevation-raised: 0 12px 34px rgb(var(--shade-rgb) / 0.42);
+  --elevation-floating: 0 20px 48px rgb(var(--shade-rgb) / 0.5);
+  --elevation-overlay: 0 30px 80px rgb(var(--shade-rgb) / 0.6);
+}
