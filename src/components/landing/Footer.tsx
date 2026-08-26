@@ -1,4 +1,5 @@
-import { MessageCircle, Youtube, Twitter } from "lucide-react";
+import { MessageCircle, Youtube } from "lucide-react";
+import { XIcon } from "@/components/icons/XIcon";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -36,13 +37,13 @@ export function Footer() {
               <Youtube className="h-5 w-5" />
             </a>
             <a
-              href="https://twitter.com/techimmigrants"
+              href="https://x.com/techimmigrants"
               target="_blank"
               rel="noopener noreferrer"
               className="w-10 h-10 bg-secondary-foreground/10 rounded-full flex items-center justify-center hover:bg-secondary-foreground/20 transition-colors"
-              aria-label="Twitter"
+              aria-label="X"
             >
-              <Twitter className="h-5 w-5" />
+              <XIcon className="h-5 w-5" />
             </a>
           </div>
         </div>
