@@ -36,6 +36,9 @@ jobs:
       # it without a separate Cloudflare Git-integration build step.
       - name: 🧱 Bundle Pages Function
         run: |
+          # wrangler's --output-routes-path must write into an existing
+          # directory; create it before invoking the build.
+          mkdir -p functions-built
           npx wrangler pages functions build functions \
             --outdir=functions-built \
             --output-routes-path=functions-built/_routes.json \
