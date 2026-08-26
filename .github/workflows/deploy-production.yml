@@ -1,0 +1,83 @@
+name: Deploy production
+
+# Triggers when the CI workflow finishes successfully for a commit on main.
+# This guarantees a failing CI can never reach production, even for admins
+# who can otherwise bypass branch protection on a direct push.
+on:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: "Commit SHA to deploy (defaults to main HEAD)"
+        required: false
+        default: ""
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.workflow_run.head_branch }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    name: 🚀 Deploy to Cloudflare Pages
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    # workflow_run events report the triggering workflow's conclusion via
+    # github.event.workflow_run.conclusion. If CI did not succeed, skip
+    # the deploy. The "main" branch filter on workflow_run above already
+    # prevents this from running for non-main pushes, but we double-check
+    # here as defense in depth.
+    if: >
+      github.event_name != 'workflow_run'
+      || github.event.workflow_run.conclusion == 'success'
+
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+
+      - name: 🔧 Setup project
+        uses: ./.github/actions/setup
+
+      - name: 📦 Install Wrangler
+        # We invoke wrangler twice: once to bundle the Pages Function
+        # (`functions/_middleware.ts`) into the deploy directory, and
+        # once via wrangler-action to push the deployment. Pin the
+        # version so both invocations agree.
+        run: npm install --no-save wrangler@4.126.0
+
+      - name: 🏗️ Build
+        run: npm run build
+
+      # Bundle the SPA middleware function so Cloudflare Pages can apply
+      # it without a separate Cloudflare Git-integration build step.
+      - name: 🧱 Bundle Pages Function
+        run: |
+          npx wrangler pages functions build functions \
+            --outdir=functions-built \
+            --output-routes-path=functions-built/_routes.json \
+            --build-output-directory=dist
+
+      - name: 📦 Stage Worker bundle
+        run: |
+          mkdir -p dist/_worker.js
+          cp functions-built/index.js dist/_worker.js/index.js
+          cp functions-built/_routes.json dist/_worker.js/_routes.json
+
+      - name: 🚀 Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v4
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          # `--branch=main` makes this a production deployment on Pages.
+          # The full command mirrors what `wrangler pages deploy` accepts
+          # locally; the action only adds authentication.
+          command: pages deploy dist --project-name=techimmigrants-landingpage --branch=main
+          wranglerVersion: 4.126.0
