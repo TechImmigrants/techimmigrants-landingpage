@@ -13,7 +13,7 @@
   border: 1px solid var(--border-glass);
   border-radius: 1.25rem;
   background: var(--surface-glass);
-  box-shadow: var(--elevation-raised), inset 0 1px 0 rgb(var(--light-rgb) / 0.75);
+  box-shadow: var(--elevation-raised), inset 0 1px 0 var(--rim-highlight-soft);
   -webkit-backdrop-filter: blur(20px) saturate(140%);
   backdrop-filter: blur(20px) saturate(140%);
 }
@@ -29,7 +29,7 @@
 @keyframes ti-header-lift {
   to {
     background: var(--surface-glass-strong);
-    box-shadow: var(--elevation-floating), inset 0 1px 0 rgb(var(--light-rgb) / 0.9);
+    box-shadow: var(--elevation-floating), inset 0 1px 0 var(--rim-highlight);
   }
 }
 

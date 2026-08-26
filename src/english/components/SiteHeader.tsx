@@ -2,6 +2,7 @@ import { BrandMark } from "./BrandMark";
 import { LanguageSwitch } from "./LanguageSwitch";
 import { MobileNav } from "./MobileNav";
 import { SiteNav } from "./SiteNav";
+import { ThemeToggle } from "./ThemeToggle";
 
 export function SiteHeader() {
   return (
@@ -9,6 +10,7 @@ export function SiteHeader() {
       <BrandMark />
       <SiteNav />
       <div className="ti-header__actions">
+        <ThemeToggle />
         <LanguageSwitch />
         <MobileNav />
       </div>

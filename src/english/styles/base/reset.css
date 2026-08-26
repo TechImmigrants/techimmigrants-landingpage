@@ -47,8 +47,8 @@
 }
 
 .ti ::selection {
-  background: var(--surface-accent-soft);
-  color: var(--navy-800);
+  background: var(--selection-bg);
+  color: var(--selection-text);
 }
 
 .ti :focus-visible {
@@ -64,8 +64,8 @@
   left: 0.75rem;
   padding: 0.7rem 1.1rem;
   border-radius: var(--radius-pill);
-  background: var(--navy-800);
-  color: var(--neutral-0);
+  background: var(--skip-surface);
+  color: var(--skip-text);
   font-size: var(--size-sm);
   font-weight: 600;
   translate: 0 -220%;

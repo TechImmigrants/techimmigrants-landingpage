@@ -17,7 +17,7 @@
 }
 
 .ti-stat:hover {
-  --stat-surface: rgb(var(--light-rgb) / 0.06);
+  --stat-surface: var(--surface-hover-veil);
 }
 
 .ti-stat--emphasis:hover {

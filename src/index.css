@@ -11,7 +11,12 @@ All colors MUST be HSL.
 */
 
 @layer base {
-  :root {
+  /* `body.rw-page-active` (set by ResumeWorkshopPage) re-declares the light tokens on
+     <body>. Custom properties resolve per element, so a declaration on <body> beats
+     `html.dark` for that page's whole subtree — including the shared landing Footer it
+     renders. The resume workshop has its own untokenized --rw-* palette and stays light. */
+  :root,
+  body.rw-page-active {
     --background: 209 40% 96%;
     --foreground: 222 47% 11%;
 
@@ -104,26 +109,26 @@ All colors MUST be HSL.
     --card: 217 32% 17%;
     --card-foreground: 210 40% 98%;
 
-    --popover: 215 24% 26%;
+    --popover: 217 32% 17%;
     --popover-foreground: 210 40% 98%;
 
     --primary: 198 93% 59%;
     --primary-foreground: 204 80% 15%;
 
-    --secondary: 212 26% 83%;
-    --secondary-foreground: 228 84% 4%;
+    --secondary: 217 32% 22%;
+    --secondary-foreground: 210 40% 98%;
 
-    --muted: 215 16% 46%;
-    --muted-foreground: 210 40% 98%;
+    --muted: 217 32% 20%;
+    --muted-foreground: 214 20% 71%;
 
-    --accent: 228 84% 4%;
-    --accent-foreground: 215 20% 65%;
+    --accent: 217 32% 24%;
+    --accent-foreground: 210 40% 98%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 85% 97%;
 
-    --border: 215 19% 34%;
-    --input: 215 19% 34%;
+    --border: 215 25% 27%;
+    --input: 215 25% 27%;
     --ring: 198 93% 59%;
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 210 40% 98%;

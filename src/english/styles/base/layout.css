@@ -38,7 +38,7 @@
   border-radius: var(--radius-2xl);
   background:
     radial-gradient(circle at var(--slab-glow, 4% 96%), rgb(var(--sky-rgb) / 0.2), transparent 26rem),
-    var(--navy-800);
+    var(--surface-slab);
 }
 
 @media (max-width: 860px) {

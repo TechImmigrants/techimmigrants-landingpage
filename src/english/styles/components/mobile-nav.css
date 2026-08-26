@@ -69,7 +69,7 @@
 
 @media (max-width: 1040px) {
   .ti-header {
-    grid-template-columns: 1fr auto;
+    grid-template-columns: minmax(0, 1fr) auto;
   }
 
   .ti-nav {

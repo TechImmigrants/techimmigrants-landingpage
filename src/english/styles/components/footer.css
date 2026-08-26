@@ -5,7 +5,7 @@
   background:
     linear-gradient(rgb(var(--light-rgb) / 0.03) 1px, transparent 1px),
     linear-gradient(90deg, rgb(var(--light-rgb) / 0.03) 1px, transparent 1px),
-    var(--navy-800);
+    var(--surface-slab);
   background-size: 3rem 3rem;
 }
 

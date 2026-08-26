@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 type NavItem =
   | { label: string; href: string; type: "anchor" }
@@ -66,6 +67,7 @@ export function Navbar() {
             >
               عضویت در گروه تلگرام
             </Button>
+            <ThemeToggle />
           </div>
 
           {/* Mobile Menu Button */}
@@ -112,6 +114,11 @@ export function Navbar() {
               >
                 عضویت در گروه تلگرام
               </Button>
+              <ThemeToggle
+                showLabel
+                style={{ animationDelay: `${(navItems.length + 1) * 50}ms` }}
+                className="mt-1 animate-slide-in-right opacity-0 text-sm font-medium text-foreground/80 hover:text-primary"
+              />
             </div>
           </div>
         )}

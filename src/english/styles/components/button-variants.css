@@ -9,11 +9,11 @@
 }
 
 .ti-button--solid {
-  background: linear-gradient(135deg, var(--navy-700), var(--navy-900));
+  background: linear-gradient(135deg, var(--button-solid-from), var(--button-solid-to));
   box-shadow:
     0 12px 28px rgb(var(--ink-rgb) / 0.24),
     inset 0 1px 0 rgb(var(--light-rgb) / 0.14);
-  color: var(--neutral-0);
+  color: var(--button-solid-text);
 }
 
 .ti-button--solid:hover {
