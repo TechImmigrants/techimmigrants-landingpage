@@ -34,6 +34,10 @@
   font-size: var(--size-2xs);
 }
 
+.ti-theme--fa .ti-brand__copy strong {
+  letter-spacing: 0;
+}
+
 .ti-live-dot {
   display: inline-block;
   width: 0.45rem;

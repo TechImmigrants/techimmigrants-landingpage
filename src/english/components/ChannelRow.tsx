@@ -21,7 +21,7 @@ export function ChannelRow({ platform }: ChannelRowProps) {
       </span>
       <span className="ti-channel-row__identity">
         <strong>{platform.name}</strong>
-        <small>{platform.handle}</small>
+        <small dir="ltr">{platform.handle}</small>
       </span>
       {platform.metric ? (
         <span className="ti-channel-row__metric">

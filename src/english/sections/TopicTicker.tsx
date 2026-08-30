@@ -1,9 +1,15 @@
 import { tickerTopics } from "../content/hero";
+import { cx } from "../lib/cx";
 
-function TickerGroup() {
+interface TopicTickerProps {
+  className?: string;
+  topics?: readonly string[];
+}
+
+function TickerGroup({ topics }: { topics: readonly string[] }) {
   return (
     <div className="ti-ticker__group">
-      {tickerTopics.map((topic) => (
+      {topics.map((topic) => (
         <span className="ti-ticker__item" key={topic}>
           {topic}
           <i aria-hidden="true" />
@@ -13,12 +19,12 @@ function TickerGroup() {
   );
 }
 
-export function TopicTicker() {
+export function TopicTicker({ className, topics = tickerTopics }: TopicTickerProps = {}) {
   return (
-    <div className="ti-ticker" aria-hidden="true">
+    <div className={cx("ti-ticker", className)} aria-hidden="true">
       <div className="ti-ticker__track">
-        <TickerGroup />
-        <TickerGroup />
+        <TickerGroup topics={topics} />
+        <TickerGroup topics={topics} />
       </div>
     </div>
   );

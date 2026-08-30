@@ -1,121 +1,28 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import { Menu, X } from "lucide-react";
-import { Button } from "@/components/ui/button";
-
-type NavItem =
-  | { label: string; href: string; type: "anchor" }
-  | { label: string; to: string; type: "link" };
-
-const navItems: NavItem[] = [
-  { label: "مصاحبه‌ها", href: "#interviews", type: "anchor" },
-  { label: "منتورها", href: "#mentors", type: "anchor" },
-  { label: "بلاگ", to: "/blog", type: "link" },
-  { label: "نظرات", href: "#testimonials", type: "anchor" },
-  { label: "جامعه", href: "#community", type: "anchor" },
-  { label: "منابع", href: "#resources", type: "anchor" },
-  { label: "لایوها", href: "#lives", type: "anchor" },
-  { label: "حمایت", href: "#donation", type: "anchor" },
-];
+import { SiteHeader } from "@/english/components/SiteHeader";
+import "@/english/styles/index.css";
+import {
+  persianInstitutionalBrand,
+  persianInstitutionalNavigation,
+} from "./persianInstitutionalContent";
 
 export function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const scrollToSection = (href: string) => {
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
-    setIsOpen(false);
-  };
-
   return (
-    <nav className="sticky top-0 z-50 bg-card/95 backdrop-blur-sm border-b border-border">
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-16 flex-row-reverse">
-          {/* Logo */}
-          <a href="#" className="text-xl font-bold text-primary">
-            Tech Immigrants
-          </a>
-
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-6">
-            {navItems.map((item) =>
-              item.type === "link" ? (
-                <Link
-                  key={item.to}
-                  to={item.to}
-                  className="text-foreground/80 hover:text-primary transition-colors text-sm font-medium relative after:absolute after:bottom-0 after:right-0 after:w-0 after:h-0.5 after:bg-primary after:transition-all hover:after:w-full"
-                >
-                  {item.label}
-                </Link>
-              ) : (
-                <button
-                  key={item.href}
-                  onClick={() => scrollToSection(item.href)}
-                  className="text-foreground/80 hover:text-primary transition-colors text-sm font-medium relative after:absolute after:bottom-0 after:right-0 after:w-0 after:h-0.5 after:bg-primary after:transition-all hover:after:w-full"
-                >
-                  {item.label}
-                </button>
-              )
-            )}
-            <Button
-              size="sm"
-              onClick={() => scrollToSection("#community")}
-              className="transition-transform hover:scale-105"
-            >
-              عضویت در گروه تلگرام
-            </Button>
-          </div>
-
-          {/* Mobile Menu Button */}
-          <button
-            className="md:hidden p-2 text-foreground"
-            onClick={() => setIsOpen(!isOpen)}
-            aria-label="Toggle menu"
-          >
-            {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-          </button>
-        </div>
-
-        {/* Mobile Navigation */}
-        {isOpen && (
-          <div className="md:hidden py-4 border-t border-border animate-fade-in">
-            <div className="flex flex-col gap-3">
-              {navItems.map((item, index) =>
-                item.type === "link" ? (
-                  <Link
-                    key={item.to}
-                    to={item.to}
-                    onClick={() => setIsOpen(false)}
-                    className="text-foreground/80 hover:text-primary transition-colors text-sm font-medium py-2 text-right animate-slide-in-right opacity-0"
-                    style={{ animationDelay: `${index * 50}ms` }}
-                  >
-                    {item.label}
-                  </Link>
-                ) : (
-                  <button
-                    key={item.href}
-                    onClick={() => scrollToSection(item.href)}
-                    className="text-foreground/80 hover:text-primary transition-colors text-sm font-medium py-2 text-right animate-slide-in-right opacity-0"
-                    style={{ animationDelay: `${index * 50}ms` }}
-                  >
-                    {item.label}
-                  </button>
-                )
-              )}
-              <Button
-                size="sm"
-                className="mt-2 animate-slide-in-right opacity-0"
-                style={{ animationDelay: `${navItems.length * 50}ms` }}
-                onClick={() => scrollToSection("#community")}
-              >
-                عضویت در گروه تلگرام
-              </Button>
-            </div>
-          </div>
-        )}
-      </div>
-    </nav>
+    <SiteHeader
+      ariaLabel="ناوبری سایت"
+      brand={persianInstitutionalBrand}
+      className="ti-theme ti-theme--fa ti-header--standalone"
+      direction="rtl"
+      language={{
+        direction: "ltr",
+        hint: null,
+        href: "/",
+        label: "English",
+        locale: "en",
+      }}
+      locale="fa"
+      mobileMenuLabel="باز کردن منوی سایت"
+      navigation={persianInstitutionalNavigation}
+      navigationLabel="بخش‌های سایت"
+    />
   );
 }

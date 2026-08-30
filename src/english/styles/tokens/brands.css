@@ -1,4 +1,4 @@
-.ti {
+:is(.ti, .ti-theme) {
   --brand: var(--accent-rgb);
   --brand-telegram: 34 158 217;
   --brand-youtube: 224 62 62;
@@ -13,43 +13,43 @@
   --brand-github: 208 224 238;
 }
 
-.ti [data-platform="telegram"] {
+:is(.ti, .ti-theme) [data-platform="telegram"] {
   --brand: var(--brand-telegram);
 }
 
-.ti [data-platform="youtube"] {
+:is(.ti, .ti-theme) [data-platform="youtube"] {
   --brand: var(--brand-youtube);
 }
 
-.ti [data-platform="x"] {
+:is(.ti, .ti-theme) [data-platform="x"] {
   --brand: var(--brand-x);
 }
 
-.ti [data-platform="linkedin"] {
+:is(.ti, .ti-theme) [data-platform="linkedin"] {
   --brand: var(--brand-linkedin);
 }
 
-.ti [data-platform="instagram"] {
+:is(.ti, .ti-theme) [data-platform="instagram"] {
   --brand: var(--brand-instagram);
 }
 
-.ti [data-platform="github"] {
+:is(.ti, .ti-theme) [data-platform="github"] {
   --brand: var(--brand-github);
 }
 
-.ti [data-channel="telegram"] {
+:is(.ti, .ti-theme) [data-channel="telegram"] {
   --brand: var(--brand-telegram);
 }
 
-.ti [data-channel="youtube"] {
+:is(.ti, .ti-theme) [data-channel="youtube"] {
   --brand: var(--brand-youtube);
 }
 
-.ti [data-channel="github"] {
+:is(.ti, .ti-theme) [data-channel="github"] {
   --brand: var(--brand-github);
 }
 
-.ti [data-channel="public"],
-.ti [data-channel="workshops"] {
+:is(.ti, .ti-theme) [data-channel="public"],
+:is(.ti, .ti-theme) [data-channel="workshops"] {
   --brand: var(--accent-rgb);
 }

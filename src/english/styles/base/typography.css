@@ -1,4 +1,4 @@
-.ti :where(h1, h2, h3, h4) {
+:is(.ti, .ti-theme) :where(h1, h2, h3, h4) {
   margin: 0;
   font-weight: 600;
   letter-spacing: -0.03em;
@@ -6,30 +6,30 @@
   text-wrap: balance;
 }
 
-.ti :where(h1) {
+:is(.ti, .ti-theme) :where(h1) {
   font-size: var(--size-display);
   letter-spacing: -0.04em;
 }
 
-.ti :where(h2) {
+:is(.ti, .ti-theme) :where(h2) {
   font-size: var(--size-2xl);
 }
 
-.ti :where(h3) {
+:is(.ti, .ti-theme) :where(h3) {
   font-size: var(--size-lg);
   line-height: 1.25;
 }
 
-:where(.ti) :where(p) {
+:is(.ti, .ti-theme) :where(p) {
   margin: 0;
   text-wrap: pretty;
 }
 
-:where(.ti) :where(em) {
+:is(.ti, .ti-theme) :where(em) {
   font-style: normal;
 }
 
-.ti .ti-eyebrow {
+:is(.ti, .ti-theme) .ti-eyebrow {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
@@ -41,7 +41,7 @@
   text-transform: uppercase;
 }
 
-.ti .ti-label {
+:is(.ti, .ti-theme) .ti-label {
   color: var(--text-muted);
   font-family: var(--font-mono);
   font-size: var(--size-2xs);
@@ -50,14 +50,14 @@
   text-transform: uppercase;
 }
 
-.ti .ti-lead {
+:is(.ti, .ti-theme) .ti-lead {
   max-width: 44rem;
   color: var(--text-secondary);
   font-size: var(--size-md);
   line-height: 1.7;
 }
 
-.ti .ti-serif {
+:is(.ti, .ti-theme) .ti-serif {
   font-family: var(--font-serif);
   font-weight: 600;
   letter-spacing: -0.045em;

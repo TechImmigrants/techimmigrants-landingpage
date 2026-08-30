@@ -2,7 +2,7 @@
   --ti-page-canvas: #f2f6fa;
 }
 
-.ti {
+:where(.ti, .ti-theme) {
   --blue-50: #f0f8fd;
   --blue-100: #dff4fc;
   --blue-200: #bde6f7;

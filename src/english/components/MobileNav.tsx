@@ -1,30 +1,33 @@
 import { Menu } from "lucide-react";
 import type { MouseEvent } from "react";
-import { pageNavigation } from "../content/navigation";
-import { siteLinks } from "../content/site";
+import { pageNavigation, type NavItem } from "../content/navigation";
 
 function close(event: MouseEvent<HTMLAnchorElement>) {
   event.currentTarget.closest("details")?.removeAttribute("open");
 }
 
-export function MobileNav() {
+interface MobileNavProps {
+  ariaLabel?: string;
+  items?: readonly NavItem[];
+  menuLabel?: string;
+}
+
+export function MobileNav({
+  ariaLabel = "Mobile navigation",
+  items = pageNavigation,
+  menuLabel = "Navigation menu",
+}: MobileNavProps) {
   return (
     <details className="ti-mobile-nav">
-      <summary aria-label="Navigation menu">
+      <summary aria-label={menuLabel}>
         <Menu aria-hidden="true" />
       </summary>
-      <nav aria-label="Mobile navigation">
-        {pageNavigation.map((item) => (
+      <nav className="ti-mobile-nav__panel ti-liquid-glass" aria-label={ariaLabel}>
+        {items.map((item) => (
           <a key={item.href} href={item.href} onClick={close}>
             {item.label}
           </a>
         ))}
-        <a className="ti-mobile-nav__persian" href={siteLinks.persian}>
-          <span lang="fa" dir="rtl">
-            فارسی
-          </span>
-          <small>Persian site</small>
-        </a>
       </nav>
     </details>
   );

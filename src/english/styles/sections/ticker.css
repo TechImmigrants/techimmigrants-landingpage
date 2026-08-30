@@ -10,11 +10,13 @@
 .ti-ticker__track {
   display: flex;
   width: max-content;
-  animation: ti-marquee 34s linear infinite;
+  will-change: transform;
+  animation: ti-marquee-ltr 34s linear infinite;
 }
 
 .ti-ticker__group {
   display: flex;
+  flex: 0 0 auto;
   align-items: center;
 }
 
@@ -37,4 +39,15 @@
   height: 0.28rem;
   border-radius: 50%;
   background: var(--action-warm);
+}
+
+.ti-ticker.ti-theme--fa .ti-ticker__track {
+  direction: ltr;
+  animation-name: ti-marquee-rtl;
+}
+
+.ti-ticker.ti-theme--fa .ti-ticker__item {
+  direction: rtl;
+  letter-spacing: 0;
+  text-transform: none;
 }

@@ -1,4 +1,4 @@
-.ti {
+:where(.ti, .ti-theme) {
   --font-sans: "Instrument Sans", system-ui, -apple-system, sans-serif;
   --font-serif: "Newsreader", Georgia, "Times New Roman", serif;
   --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", monospace;
@@ -47,4 +47,10 @@
   --shell-text: 1180px;
   --shell-gutter: 1rem;
   --shell-top: 1rem;
+}
+
+.ti-theme--fa {
+  --font-sans: "Vazirmatn", "Instrument Sans", system-ui, sans-serif;
+  --font-serif: "Vazirmatn", "Newsreader", Georgia, serif;
+  --font-mono: "Vazirmatn", "IBM Plex Mono", ui-monospace, monospace;
 }

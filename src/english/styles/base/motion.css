@@ -27,20 +27,63 @@
 }
 
 @keyframes ti-drift-a {
+  0%,
+  100% {
+    opacity: 0.48;
+    transform: translate3d(0, 0, 0) scale(0.97);
+  }
+
   50% {
-    transform: translate(4.5rem, -3rem) scale(1.16);
+    opacity: 0.78;
+    transform: translate3d(var(--ti-aura-a-shift-x), -3rem, 0) scale(1.08);
   }
 }
 
 @keyframes ti-drift-b {
+  0%,
+  100% {
+    opacity: 0.58;
+    transform: translate3d(0, 0, 0) scale(0.96);
+  }
+
   50% {
-    transform: translate(-3.5rem, 2.5rem) scale(1.22);
+    opacity: 0.96;
+    transform: translate3d(var(--ti-aura-b-shift-x), 2.5rem, 0) scale(1.22);
   }
 }
 
-@keyframes ti-marquee {
+@keyframes ti-liquid-flow {
+  0%,
+  100% {
+    background-position: 0 0, -120% 0;
+    opacity: 0.3;
+    transform: scale(0.98);
+  }
+
+  50% {
+    background-position: 12% 8%, 120% 0;
+    opacity: 0.62;
+    transform: scale(1.015);
+  }
+}
+
+@keyframes ti-marquee-ltr {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
   to {
-    transform: translateX(-50%);
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes ti-marquee-rtl {
+  from {
+    transform: translate3d(-50%, 0, 0);
+  }
+
+  to {
+    transform: translate3d(0, 0, 0);
   }
 }
 
@@ -77,16 +120,16 @@
 
 
 @media (prefers-reduced-motion: reduce) {
-  .ti *,
-  .ti *::before,
-  .ti *::after {
+  :where(.ti, .ti-theme) *,
+  :where(.ti, .ti-theme) *::before,
+  :where(.ti, .ti-theme) *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
 
-  .ti [data-reveal] {
+  :where(.ti, .ti-theme) [data-reveal] {
     opacity: 1;
     transform: none;
   }

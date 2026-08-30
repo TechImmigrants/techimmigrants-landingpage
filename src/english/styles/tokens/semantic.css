@@ -1,4 +1,4 @@
-.ti {
+:where(.ti, .ti-theme) {
   --surface-canvas: var(--neutral-50);
   --surface-raised: var(--neutral-0);
   --surface-sunken: var(--neutral-100);
@@ -6,6 +6,9 @@
   --surface-glass-strong: rgb(var(--light-rgb) / 0.92);
   --surface-accent-soft: var(--blue-100);
   --surface-warm-soft: var(--amber-100);
+
+  --selection-background: var(--blue-100);
+  --selection-text: var(--navy-800);
 
   --text-primary: var(--neutral-900);
   --text-secondary: var(--neutral-600);

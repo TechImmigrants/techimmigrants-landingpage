@@ -4,7 +4,26 @@ import { siteLinks } from "./site";
 
 const years = communityYears();
 
-export const heroContent = {
+export interface HeroContent {
+  status: string;
+  headingLead: string;
+  headingRest: string;
+  headingEmphasis: string;
+  lead: string;
+  actions: {
+    telegram: { label: string; href: string };
+    youtube: { label: string; href: string };
+  };
+  trust: readonly string[];
+  board: {
+    title: string;
+    total: string;
+    totalLabel: string;
+    note: string;
+  };
+}
+
+export const heroContent: HeroContent = {
   status: `${communityStats.crossPlatformReach} people across ${spellNumber(channelCount).toLowerCase()} channels`,
   headingLead: `${spellNumber(years)} years of Persian speakers in tech`,
   headingRest: "helping each other",
@@ -22,7 +41,7 @@ export const heroContent = {
     totalLabel: "combined reach",
     note: "Grown through useful conversations.",
   },
-} as const;
+};
 
 export const tickerTopics = [
   "CVs that get read",

@@ -10,6 +10,7 @@
 @import "./base/motion.css";
 @import "./base/grain.css";
 
+@import "./components/liquid-glass.css";
 @import "./components/brand.css";
 @import "./components/button.css";
 @import "./components/button-variants.css";
@@ -27,10 +28,6 @@
 @import "./components/stat-responsive.css";
 @import "./components/need.css";
 @import "./components/principle.css";
-@import "./components/footer.css";
-@import "./components/footer-channels.css";
-@import "./components/footer-base.css";
-
 @import "./sections/hero.css";
 @import "./sections/hero-copy.css";
 @import "./sections/hero-responsive.css";

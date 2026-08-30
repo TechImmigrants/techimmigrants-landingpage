@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { SiteFooter } from "./components/SiteFooter";
+import { CommunityFooter } from "@/components/community-footer/CommunityFooter";
 import { SiteHeader } from "./components/SiteHeader";
 import { useRevealOnScroll } from "./hooks/useRevealOnScroll";
 import { ChannelsSection } from "./sections/ChannelsSection";
@@ -39,7 +39,7 @@ export default function EnglishHomePage() {
         <InvitationSection />
       </main>
 
-      <SiteFooter />
+      <CommunityFooter locale="en" />
     </div>
   );
 }

@@ -12,6 +12,8 @@ test("the root HTML entry describes the English homepage", () => {
   assert.doesNotMatch(html, /Sahar Pakseresht|"founder"/);
   assert.match(html, /<link rel="canonical" href="https:\/\/techimmigrants\.com\/"/);
   assert.match(html, /hreflang="fa" href="https:\/\/techimmigrants\.com\/fa\/"/);
+  assert.match(html, /https:\/\/www\.instagram\.com\/techimmigrant/);
+  assert.doesNotMatch(html, /instagram\.com\/techimmigrants/);
 });
 
 test("the Persian HTML entry preserves Persian language metadata", () => {
@@ -24,6 +26,8 @@ test("the Persian HTML entry preserves Persian language metadata", () => {
   assert.match(html, /<html lang="fa" dir="rtl">/);
   assert.match(html, /<link rel="canonical" href="https:\/\/techimmigrants\.com\/fa\/"/);
   assert.match(html, /hreflang="en" href="https:\/\/techimmigrants\.com\/"/);
+  assert.match(html, /https:\/\/www\.instagram\.com\/techimmigrant/);
+  assert.doesNotMatch(html, /instagram\.com\/techimmigrants/);
 });
 
 test("Cloudflare no longer redirects the English root to Persian", () => {

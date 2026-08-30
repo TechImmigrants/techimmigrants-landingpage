@@ -1,9 +1,14 @@
-import { pageNavigation } from "../content/navigation";
+import { pageNavigation, type NavItem } from "../content/navigation";
 
-export function SiteNav() {
+interface SiteNavProps {
+  ariaLabel?: string;
+  items?: readonly NavItem[];
+}
+
+export function SiteNav({ ariaLabel = "Page sections", items = pageNavigation }: SiteNavProps) {
   return (
-    <nav className="ti-nav" aria-label="Page sections">
-      {pageNavigation.map((item) => (
+    <nav className="ti-nav" aria-label={ariaLabel}>
+      {items.map((item) => (
         <a key={item.href} href={item.href}>
           {item.label}
         </a>

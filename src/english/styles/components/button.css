@@ -1,4 +1,7 @@
 .ti-button {
+  --ti-button-sweep-start: -130%;
+  --ti-button-sweep-end: 130%;
+
   position: relative;
   display: inline-flex;
   min-height: 3.05rem;
@@ -24,7 +27,7 @@
     rgb(var(--light-rgb) / 0.26) 50%,
     transparent 62%
   );
-  translate: -130% 0;
+  translate: var(--ti-button-sweep-start) 0;
   transition: translate 760ms var(--ease-out);
 }
 
@@ -33,7 +36,12 @@
 }
 
 .ti-button:hover::after {
-  translate: 130% 0;
+  translate: var(--ti-button-sweep-end) 0;
+}
+
+[dir="rtl"] .ti-button {
+  --ti-button-sweep-start: 130%;
+  --ti-button-sweep-end: -130%;
 }
 
 .ti-button svg {

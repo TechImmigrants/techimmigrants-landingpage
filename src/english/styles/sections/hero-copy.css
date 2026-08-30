@@ -77,3 +77,32 @@
   content: "·";
   opacity: 0.6;
 }
+
+.ti-theme--fa .ti-hero__status,
+.ti-theme--fa .ti-hero__trust {
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.ti-theme--fa h1 {
+  max-width: 18ch;
+  font-size: clamp(2.35rem, 4.3vw, 3.65rem);
+  letter-spacing: 0;
+  line-height: 1.32;
+}
+
+.ti-theme--fa h1 em {
+  font-style: normal;
+}
+
+.ti-theme--fa h1 em::after {
+  transform-origin: right;
+}
+
+.ti-theme--fa .ti-hero__lead {
+  line-height: 1.95;
+}
+
+.ti-theme--fa .ti-button > svg {
+  transform: scaleX(-1);
+}

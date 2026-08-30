@@ -1,16 +1,17 @@
 .ti-board {
+  --ti-liquid-start: rgb(var(--light-rgb) / 0.82);
+  --ti-liquid-end: rgb(var(--light-rgb) / 0.58);
+  --ti-liquid-blur: 20px;
+  --ti-liquid-saturation: 155%;
+  --ti-liquid-sheen: rgb(var(--sky-rgb) / 0.11);
+  --ti-liquid-shadow: var(--elevation-floating);
+  --ti-liquid-rim: rgb(var(--light-rgb) / 0.88);
+
   position: relative;
   display: flex;
   flex-direction: column;
   padding: 0.8rem;
-  border: 1px solid var(--border-glass);
   border-radius: var(--radius-xl);
-  background: var(--surface-glass-strong);
-  box-shadow:
-    var(--elevation-floating),
-    inset 0 1px 0 rgb(var(--light-rgb) / 0.9);
-  -webkit-backdrop-filter: blur(18px) saturate(140%);
-  backdrop-filter: blur(18px) saturate(140%);
 }
 
 .ti-board__head {

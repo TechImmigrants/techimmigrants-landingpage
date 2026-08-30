@@ -7,6 +7,9 @@
   --surface-accent-soft: rgb(var(--sky-rgb) / 0.14);
   --surface-warm-soft: rgb(var(--warm-rgb) / 0.16);
 
+  --selection-background: var(--amber-200);
+  --selection-text: var(--navy-900);
+
   --text-primary: var(--neutral-0);
   --text-secondary: rgb(var(--light-rgb) / 0.82);
   --text-muted: rgb(var(--light-rgb) / 0.66);

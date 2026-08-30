@@ -1,4 +1,9 @@
 .ti-hero {
+  --ti-sky-origin-x: 4%;
+  --ti-warm-origin-x: 96%;
+  --ti-aura-a-shift-x: 4.5rem;
+  --ti-aura-b-shift-x: -3.5rem;
+
   position: relative;
   display: grid;
   min-height: min(720px, calc(100svh - 7.5rem));
@@ -11,8 +16,16 @@
   border: 1px solid rgb(var(--light-rgb) / 0.85);
   border-radius: var(--radius-2xl);
   background:
-    radial-gradient(circle at 4% -6%, rgb(var(--sky-rgb) / 0.2), transparent 30rem),
-    radial-gradient(circle at 96% 104%, rgb(var(--warm-rgb) / 0.13), transparent 26rem),
+    radial-gradient(
+      circle at var(--ti-sky-origin-x) -6%,
+      rgb(var(--sky-rgb) / 0.2),
+      transparent 30rem
+    ),
+    radial-gradient(
+      circle at var(--ti-warm-origin-x) 104%,
+      rgb(var(--warm-rgb) / 0.13),
+      transparent 26rem
+    ),
     linear-gradient(140deg, rgb(var(--light-rgb) / 0.97), rgb(var(--light-rgb) / 0.7));
   box-shadow:
     var(--elevation-overlay),
@@ -20,31 +33,43 @@
   isolation: isolate;
 }
 
+[dir="rtl"].ti-hero {
+  --ti-sky-origin-x: 96%;
+  --ti-warm-origin-x: 4%;
+  --ti-aura-a-shift-x: -4.5rem;
+  --ti-aura-b-shift-x: 3.5rem;
+}
+
 .ti-hero__aura {
   position: absolute;
-  z-index: -1;
+  z-index: 0;
   border-radius: 50%;
   pointer-events: none;
-  filter: blur(8px);
+  filter: blur(12px);
+  will-change: transform, opacity;
 }
 
 .ti-hero__aura--a {
-  inset: -18% auto auto -12%;
+  inset-block-start: -18%;
+  inset-inline-start: -12%;
   width: 30rem;
   height: 30rem;
-  background: radial-gradient(circle, rgb(var(--accent-rgb) / 0.16), transparent 66%);
-  animation: ti-drift-a 19s ease-in-out infinite;
+  background: radial-gradient(circle, rgb(var(--accent-rgb) / 0.2), transparent 66%);
+  animation: ti-drift-a 17s ease-in-out infinite;
 }
 
 .ti-hero__aura--b {
-  inset: auto -14% -22% auto;
+  inset-block-end: -22%;
+  inset-inline-end: -14%;
   width: 26rem;
   height: 26rem;
-  background: radial-gradient(circle, rgb(var(--warm-rgb) / 0.18), transparent 66%);
-  animation: ti-drift-b 24s ease-in-out infinite;
+  background: radial-gradient(circle, rgb(var(--warm-rgb) / 0.22), transparent 66%);
+  animation: ti-drift-b 21s ease-in-out infinite;
 }
 
 .ti-hero__copy {
+  position: relative;
+  z-index: 1;
   display: grid;
   justify-items: start;
   gap: clamp(1rem, 1.6vw, 1.4rem);
@@ -55,6 +80,7 @@
 }
 
 .ti-hero .ti-board {
+  z-index: 1;
   animation: ti-rise-scale 780ms 200ms var(--ease-entrance) both;
 }
 
